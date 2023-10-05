@@ -42,36 +42,7 @@ fun compoentesPureba(
         // barraBusqueda()//barra
         cardContent()// Contenido del Card
 
-
         //var texto by remember { mutableStateOf("") }
-
-        TextFieldPersonalizado(
-            texto ="",
-            onTextoCambiado = { },
-            etiqueta = stringResource(id = R.string.labelTarea),
-            placeholder = stringResource(id = R.string.placeholderTarea),
-            icono =  Icons.Default.Create ,
-            multiLinea = false)//  cambiar el icono aquí
-
-        TextFieldPersonalizado(
-            texto = "",
-            onTextoCambiado = { },
-            etiqueta = stringResource(id = R.string.labelDescripcion),
-            placeholder = stringResource(id = R.string.placeholderDescripcion),
-            icono =  Icons.Default.Create ,
-            multiLinea = false)//  cambiar el icono aquí
-
-
-
-        BotonPersonalizado(
-            texto = stringResource(id = R.string.botonRegistrar),
-            onClick = { },
-
-            colorFondo = Color.Green,
-            colorTexto = Color.White
-        )
-
-
         // Espacio en blanco para separar el contenido del botón de agregar
         Spacer(modifier = Modifier.height(16.dp))
 

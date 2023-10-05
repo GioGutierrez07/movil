@@ -21,7 +21,7 @@ fun BotonPersonalizado(
     texto: String,
     onClick: () -> Unit,
     colorFondo: Color = Color.Black,
-    colorTexto: Color = Color.White
+    colorTexto: Color = Color.White,
 ) {
     Button(
         onClick = onClick,
@@ -46,6 +46,6 @@ fun BotonPersonalizadoPreview() {
         texto = stringResource(id = R.string.botonRegistrar),
         onClick = { },
         colorFondo = Color.Green,
-        colorTexto = Color.White
+        colorTexto = Color.White,
     )
 }
