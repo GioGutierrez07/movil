@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.movil.ui.theme.MovilTheme
+import com.example.myapplication.compoentesPureba
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    muestraComponntes()
                 }
             }
         }
@@ -30,17 +31,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+fun muestraComponntes(modifier: Modifier = Modifier) {
+    compoentesPureba(onAddClick = { /*TODO*/ },
+        {tareaCard(
+            nombre = "hacer tarea",
+            descripcion = "Debo hacer la tarea de movil",
+            imagen = R.drawable.astronauta  )})
 }
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MovilTheme {
-        Greeting("Android")
-    }
-}
