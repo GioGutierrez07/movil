@@ -15,13 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.movil.PrubaPanatllaAgregar
 
 @Composable
 fun IconoAgregar(
     onClick: () -> Unit,
     tamañoIcono: Int = 48,
     colorIcono: Color = Color.White,
-    colorFondo: Color = Color.Blue
+    colorFondo: Color = Color.Blue,
 ) {
     Box(
         modifier = Modifier
@@ -47,6 +48,6 @@ fun IconoAgregarPreview() {
         onClick = { /* Acción al hacer clic */ },
         tamañoIcono = 48,
         colorIcono = Color.White,
-        colorFondo = Color.Gray
+        colorFondo = Color.Gray,
     )
 }

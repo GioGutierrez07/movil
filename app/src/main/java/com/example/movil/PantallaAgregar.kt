@@ -43,7 +43,6 @@ import com.example.movil.tareaCard
 @Composable
 fun PrubaPanatllaAgregar(
     onAddClick: () -> Unit,
-    cardContent: @Composable () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -80,7 +79,6 @@ fun PrubaPanatllaAgregar(
         BotonPersonalizado(
             texto = stringResource(id = R.string.botonRegistrar),
             onClick = { },
-
             colorFondo = Color.Green,
             colorTexto = Color.White
         )
@@ -97,7 +95,7 @@ fun PrubaPanatllaAgregar(
             horizontalArrangement = Arrangement.End
         ) {
             IconoPersonalizable(
-                onClick = { /*TODO*/ },
+                onClick = onAddClick ,
                 icono = R.drawable.regresar)
         }
     }
@@ -133,7 +131,5 @@ fun IconoPersonalizable(
 fun PantallaAddPreview() {
     PrubaPanatllaAgregar(
         onAddClick = { /* Acción al hacer clic en Agregar */ }
-    ) {
-
-    }
+    )
 }

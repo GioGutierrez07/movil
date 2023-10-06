@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,29 +28,42 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                   // muestraComponntes()
-                    muestrapantalla2()
+                   muestraComponntes()
+                   // muestrapantalla2()
                 }
             }
         }
     }
 }
 
+
+
+
+
 @Composable
 fun muestraComponntes(modifier: Modifier = Modifier) {
-    compoentesPureba(onAddClick = { /*TODO*/ },
-        {tareaCard(
-            nombre = "hacer tarea",
-            descripcion = "Debo hacer la tarea de movil",
-            imagen = R.drawable.astronauta  )})
+
+    var mostrarsegunda by rememberSaveable { mutableStateOf(true) }
+
+    if (mostrarsegunda){
+        compoentesPureba(onAddClick = { mostrarsegunda=false },
+            {tareaCard(
+                nombre = "hacer tarea",
+                descripcion = "Debo hacer la tarea de movil",
+                imagen = R.drawable.astronauta  )})
+    }else{
+        PrubaPanatllaAgregar(
+            onAddClick = { mostrarsegunda=true}
+        )
+    }
+
 }
 
 @Composable
 fun muestrapantalla2(modifier: Modifier = Modifier) {
     PrubaPanatllaAgregar(
         onAddClick = { /* Acción al hacer clic en Agregar */ }
-    ) {
-    }
+    )
 
 
 }
