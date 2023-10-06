@@ -1,5 +1,7 @@
 package com.example.movil
 
+
+
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -74,7 +76,8 @@ fun PrubaPanatllaAgregar(
             placeholder = stringResource(id = R.string.placeholderDescripcion),
             icono =  Icons.Default.Create ,
             multiLinea = false)//  cambiar el icono aquí
-
+        // boton para las fechas
+       // Fecha()
 
         BotonPersonalizado(
             texto = stringResource(id = R.string.botonRegistrar),

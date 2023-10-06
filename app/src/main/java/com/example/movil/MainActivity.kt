@@ -1,5 +1,6 @@
 package com.example.movil
 
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -28,16 +29,13 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                   muestraComponntes()
-                   // muestrapantalla2()
+                  muestraComponntes()
+                //muestrapantalla2()
                 }
             }
         }
     }
 }
-
-
-
 
 
 @Composable
@@ -59,12 +57,11 @@ fun muestraComponntes(modifier: Modifier = Modifier) {
 
 }
 
-@Composable
-fun muestrapantalla2(modifier: Modifier = Modifier) {
-    PrubaPanatllaAgregar(
-        onAddClick = { /* Acción al hacer clic en Agregar */ }
-    )
 
+
+@Preview
+@Composable
+fun muestrapantalla(modifier: Modifier = Modifier) {
 
 }
 
