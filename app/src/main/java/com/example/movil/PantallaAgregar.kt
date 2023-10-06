@@ -50,7 +50,7 @@ fun PrubaPanatllaAgregar(
             .fillMaxSize()
     ) {
 
-        var seleccion by remember { mutableStateOf("Tarea") }
+        var seleccion by remember { mutableStateOf("tarea") }
         //selecionar tarea o notas
         SelectorTareaNotas(
             seleccion = seleccion,

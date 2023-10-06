@@ -1,5 +1,6 @@
 package com.example.movil
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -38,7 +39,7 @@ fun SelectorTareaNotas(
             iconoResId = R.drawable.tarea, // Cambia el icono de tarea aquí
             texto = "Tarea",
             onClick = {
-                tareaSeleccionada = true
+                tareaSeleccionada=true
                 onSeleccionCambiada("Tarea")
             }
         )
@@ -48,7 +49,7 @@ fun SelectorTareaNotas(
             iconoResId = R.drawable.nota, // Cambia el icono de notas aquí
             texto = "Notas",
             onClick = {
-                tareaSeleccionada = false
+                tareaSeleccionada=false
                 onSeleccionCambiada("Notas")
             }
         )
@@ -60,29 +61,33 @@ fun IconoSeleccion(
     seleccionado: Boolean,
     iconoResId: Int,
     texto: String,
-    onClick: () -> Unit
+    onClick: (Boolean) -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
 
     ) {
-        Icon(
-            painter = painterResource(id = iconoResId),
-            contentDescription = null,
-            modifier = Modifier.size(48.dp),
-            tint = if (seleccionado) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
-        )
+        IconButton(onClick = { onClick(!seleccionado)}) {
+            Icon(
+                painter = painterResource(id = iconoResId),
+                contentDescription = null,
+                modifier =
+                Modifier
+                    .size(60.dp),
+                tint = if (seleccionado) MaterialTheme.colorScheme.inversePrimary else MaterialTheme.colorScheme.inverseSurface
+            )
+        }
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = texto,
-            color = if (seleccionado) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+            color = if (seleccionado) MaterialTheme.colorScheme.inversePrimary else MaterialTheme.colorScheme.inverseSurface
         )
     }
 }
 @Preview
 @Composable
-fun SelectorTarea2NotasPreview() {
-    var seleccion by remember { mutableStateOf("Tarea") }
+fun SelectorTareaNotasPreview() {
+    var seleccion by remember { mutableStateOf("") }
 
     SelectorTareaNotas(
         seleccion = seleccion,
