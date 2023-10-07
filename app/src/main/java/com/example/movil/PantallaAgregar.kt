@@ -2,6 +2,7 @@ package com.example.movil
 
 
 
+import Fecha
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -78,7 +79,7 @@ fun PrubaPanatllaAgregar(
             icono =  Icons.Default.Create ,
             multiLinea = false)//  cambiar el icono aquí
         // boton para las fechas
-       // Fecha()
+        Fecha()
 
         //selecionanun icono multimedia
         SelectorMultimedia(seleccion = multi,
