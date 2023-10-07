@@ -52,6 +52,7 @@ fun PrubaPanatllaAgregar(
     ) {
 
         var seleccion by remember { mutableStateOf("tarea") }
+        var multi by remember { mutableStateOf("Fotos") }
         //selecionar tarea o notas
         SelectorTareaNotas(
             seleccion = seleccion,
@@ -78,6 +79,12 @@ fun PrubaPanatllaAgregar(
             multiLinea = false)//  cambiar el icono aquí
         // boton para las fechas
        // Fecha()
+
+        //selecionanun icono multimedia
+        SelectorMultimedia(seleccion = multi,
+            onSeleccionCambiada = { nuevaSeleccion ->
+                multi = nuevaSeleccion
+            })
 
         BotonPersonalizado(
             texto = stringResource(id = R.string.botonRegistrar),
