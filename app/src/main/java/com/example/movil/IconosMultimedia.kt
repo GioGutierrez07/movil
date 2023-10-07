@@ -48,19 +48,19 @@ fun SelectorMultimedia(
             }
         )
 
+          Spacer(modifier = Modifier.width(16.dp))
             Text(
                 text = "MULTIMEDIA",
                 textAlign = TextAlign.Center,
                 color= Purple40,
                 fontFamily = FontFamily.Monospace,
-                fontWeight = FontWeight.ExtraBold,
+                fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.displaySmall,
-                modifier=Modifier.padding(15.dp)
+
             )
 
-
-        
         Spacer(modifier = Modifier.width(16.dp))
+
         IconoSeleccion(
             seleccionado = !iconoSeleccionado,
             iconoResId = R.drawable.audio, // Cambia el icono

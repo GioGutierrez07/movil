@@ -79,13 +79,17 @@ fun PrubaPanatllaAgregar(
             icono =  Icons.Default.Create ,
             multiLinea = false)//  cambiar el icono aquí
         // boton para las fechas
+        Spacer(modifier = Modifier.height(16.dp))
+
         Fecha()
+
 
         //selecionanun icono multimedia
         SelectorMultimedia(seleccion = multi,
             onSeleccionCambiada = { nuevaSeleccion ->
                 multi = nuevaSeleccion
             })
+
 
         BotonPersonalizado(
             texto = stringResource(id = R.string.botonRegistrar),
