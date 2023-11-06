@@ -58,9 +58,6 @@ fun SelectorFecha(
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-
-
-
         IconoPersonalizable(onClick = {  selectorFechaDialog.show() }, icono = R.drawable.fecha)
         // Botón para abrir el selector de fechas
         //BotonPersonalizado(texto = "Elige una fecha", onClick = {  selectorFechaDialog.show() })
