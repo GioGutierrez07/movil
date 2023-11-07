@@ -8,8 +8,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.example.movil.models.Notas
-
+import com.example.notastareas.models.Notas
 import kotlinx.coroutines.flow.Flow
 
 

@@ -1,4 +1,4 @@
-package com.example.movil.models
+package com.example.notastareas.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -18,4 +18,5 @@ data class Notas(
     val descripcion: String,
     @ColumnInfo(name="tipo")
     val tipo: String,
-)
+
+    )

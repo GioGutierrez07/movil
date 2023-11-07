@@ -1,4 +1,3 @@
-package com.example.movil.viewModels
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.example.movil"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.movil"
@@ -54,6 +54,7 @@ android {
 
 dependencies {
 
+    implementation("androidx.room:room-common:2.6.0")
     // Room
     val room_version = "2.5.1"
     implementation("androidx.room:room-ktx:$room_version")
