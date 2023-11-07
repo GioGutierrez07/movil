@@ -1,2 +1,2 @@
-package com.example.movil.componentes
+package com.example.notastareas.componentes
 
