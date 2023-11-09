@@ -1,7 +1,7 @@
 package com.example.movil
 
 
-import RegistrarTareaViewModel
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -18,9 +18,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.movil.navegacion.NavManager
 import com.example.movil.ui.theme.MovilTheme
 import com.example.movil.viewModels.TareasViewModel
-import com.example.notastareas.navegacion.NavManager
+
 
 
 class MainActivity : ComponentActivity() {

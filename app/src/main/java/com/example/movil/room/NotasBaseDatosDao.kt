@@ -1,4 +1,4 @@
-package com.example.notastareas.room
+package com.example.movil
 
 
 
@@ -8,7 +8,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.example.notastareas.models.Notas
+
 import kotlinx.coroutines.flow.Flow
 
 

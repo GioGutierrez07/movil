@@ -1,12 +1,5 @@
 package com.example.notastareas.views
 
-import RegistrarTareaViewModel
-import com.example.notastareas.componentes.MainButton
-import com.example.notastareas.componentes.MainIconButton
-import com.example.notastareas.componentes.TitleBar
-
-
-
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,16 +29,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.example.movil.Notas
 import com.example.movil.R
+import com.example.movil.RegistrarTareaViewModel
+import com.example.movil.componentes.Alert
+import com.example.movil.componentes.IconoSeleccion
+import com.example.movil.componentes.MainButtonRegistrar
+import com.example.movil.componentes.MainIconButton
+import com.example.movil.componentes.MainTextFieldPersonalizado
+import com.example.movil.componentes.SelectorFecha
+import com.example.movil.componentes.SelectorMultimedia
+import com.example.movil.componentes.SpaceAlto
+import com.example.movil.componentes.TitleBar
 import com.example.movil.viewModels.TareasViewModel
-import com.example.notastareas.componentes.Alert
-import com.example.notastareas.componentes.IconoSeleccion
-import com.example.notastareas.componentes.MainButtonRegistrar
-import com.example.notastareas.componentes.MainTextFieldPersonalizado
-import com.example.notastareas.componentes.SelectorFecha
-import com.example.notastareas.componentes.SelectorMultimedia
-import com.example.notastareas.componentes.SpaceAlto
-import com.example.notastareas.models.Notas
+
 
 
 
@@ -128,7 +125,7 @@ fun ContentFormularioEditarView(
         MainTextFieldPersonalizado(
             value = viewModel.estado.nombre,
             onValueChange = { viewModel.onValue(it, "nombre") },
-            label = stringResource(id = R.string.nombreA)
+            label = stringResource(id = R.string.NombreA)
         )
 
         SpaceAlto()

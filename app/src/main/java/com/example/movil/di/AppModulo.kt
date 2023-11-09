@@ -1,9 +1,10 @@
-package com.example.notastareas.di
+package com.example.movil.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.notastareas.room.NotasDataBase
-import com.example.notastareas.room.NotasDataBaseDao
+import com.example.movil.NotasDataBase
+import com.example.movil.NotasDataBaseDao
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +21,7 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun providesNotasDao(notasDataBase: NotasDataBase): NotasDataBaseDao{
+    fun providesNotasDao(notasDataBase: NotasDataBase): NotasDataBaseDao {
         return notasDataBase.notasDao()
     }
 

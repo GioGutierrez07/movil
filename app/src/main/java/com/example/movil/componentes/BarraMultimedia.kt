@@ -1,4 +1,4 @@
-package com.example.notastareas.componentes
+package com.example.movil.componentes
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

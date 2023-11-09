@@ -1,4 +1,4 @@
-package com.example.notastareas.componentes
+package com.example.movil.componentes
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable

@@ -1,6 +1,6 @@
-package com.example.notastareas.navegacion
+package com.example.movil.navegacion
 
-import RegistrarTareaViewModel
+
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavType
@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.movil.RegistrarTareaViewModel
 import com.example.movil.viewModels.TareasViewModel
 
 import com.example.notastareas.views.FormularioEditarView

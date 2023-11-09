@@ -1,4 +1,4 @@
-package com.example.notastareas.componentes
+package com.example.movil.componentes
 
 import android.graphics.drawable.Drawable
 import androidx.compose.animation.expandHorizontally

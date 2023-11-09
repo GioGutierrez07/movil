@@ -1,4 +1,4 @@
-package com.example.notastareas.componentes
+package com.example.movil.componentes
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height

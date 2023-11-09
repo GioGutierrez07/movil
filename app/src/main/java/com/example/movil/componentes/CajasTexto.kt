@@ -1,4 +1,4 @@
-package com.example.notastareas.componentes
+package com.example.movil.componentes
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding

@@ -4,9 +4,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.movil.repositorio.NotasRepositorio
 import com.example.movil.state.NotasEstado
-import com.example.notastareas.models.Notas
-import com.example.notastareas.repositorio.NotasRepositorio
+
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 import kotlinx.coroutines.Dispatchers

@@ -1,4 +1,4 @@
-package com.example.notastareas.componentes
+package com.example.movil.componentes
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

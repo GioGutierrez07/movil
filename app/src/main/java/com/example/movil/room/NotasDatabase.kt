@@ -1,9 +1,9 @@
-package com.example.notastareas.room
+package com.example.movil
 
 import androidx.room.Database
-import androidx.room.Room
+
 import androidx.room.RoomDatabase
-import com.example.notastareas.models.Notas
+
 
 
 @Database(entities = [Notas::class], version = 1 , exportSchema = false)

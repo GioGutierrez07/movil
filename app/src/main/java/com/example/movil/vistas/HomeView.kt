@@ -1,13 +1,10 @@
 package com.example.notastareas.views
 
-import RegistrarTareaViewModel
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Spacer
+
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -34,11 +31,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.movil.R
+import com.example.movil.RegistrarTareaViewModel
+import com.example.movil.componentes.BotonFlotante
+import com.example.movil.componentes.CardMain
+import com.example.movil.componentes.SpaceAlto
+import com.example.movil.componentes.TextFieldPersonalizado
 import com.example.movil.viewModels.TareasViewModel
-import com.example.notastareas.componentes.BotonFlotante
-import com.example.notastareas.componentes.CardMain
-import com.example.notastareas.componentes.SpaceAlto
-import com.example.notastareas.componentes.TextFieldPersonalizado
+
 
 import me.saket.swipe.SwipeAction
 import me.saket.swipe.SwipeableActionsBox
@@ -47,7 +46,7 @@ import me.saket.swipe.SwipeableActionsBox
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeView(
-    bDModel:RegistrarTareaViewModel
+    bDModel: RegistrarTareaViewModel
     , viewModel: TareasViewModel,
     navController: NavController){
     Scaffold(
