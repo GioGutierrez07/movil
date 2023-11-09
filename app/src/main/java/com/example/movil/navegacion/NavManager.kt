@@ -8,7 +8,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.notastareas.viewModels.TareasViewModel
+import com.example.movil.viewModels.TareasViewModel
+
 import com.example.notastareas.views.FormularioEditarView
 import com.example.notastareas.views.FormularioView
 import com.example.notastareas.views.HomeView
@@ -17,7 +18,8 @@ import com.example.notastareas.views.HomeView
 @Composable
 fun NavManager(
     BDModel: RegistrarTareaViewModel,
-    viewModel: TareasViewModel){
+    viewModel: TareasViewModel
+){
 
     val navController = rememberNavController()
 
