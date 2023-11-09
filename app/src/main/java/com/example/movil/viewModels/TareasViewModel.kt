@@ -1,5 +1,4 @@
-package com.example.notastareas.viewModels
-
+package com.example.movil.viewModels
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,8 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.movil.state.NotasEstado
 import com.example.notastareas.models.Notas
 import com.example.notastareas.repositorio.NotasRepositorio
-
 import dagger.hilt.android.lifecycle.HiltViewModel
+
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -82,7 +81,7 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
 
     }
 
-    fun validarCampos(){
+    fun validarCampos(): Boolean{
         val tarea=estado.tarea
         val notas=estado.notas
         val nombre=estado.nombre
@@ -93,11 +92,13 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
 
         if(!tarea  && !notas ){
             estado= estado.copy(mostrarAlerta = true)
+            return false
         }
-        if(nombre =="" && descripcion =="" && fecha==""){
+        if(nombre =="" || descripcion == "" || fecha==""){
             estado=estado.copy(mostrarAlerta = true)
+            return false
         }
-
+        return true
 
     }
 

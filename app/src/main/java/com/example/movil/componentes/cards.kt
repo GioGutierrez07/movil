@@ -87,7 +87,7 @@ fun CardMain(
             )
             IconoPersonalizable(
                 onClick = { onclickMostrarMas() },
-                icono = R.drawable.desplegar
+                icono = R.drawable.add
             )
 
         }

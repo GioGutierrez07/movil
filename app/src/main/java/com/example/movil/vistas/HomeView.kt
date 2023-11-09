@@ -34,12 +34,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.movil.R
+import com.example.movil.viewModels.TareasViewModel
 import com.example.notastareas.componentes.BotonFlotante
 import com.example.notastareas.componentes.CardMain
 import com.example.notastareas.componentes.SpaceAlto
 import com.example.notastareas.componentes.TextFieldPersonalizado
 
-import com.example.notastareas.viewModels.TareasViewModel
 import me.saket.swipe.SwipeAction
 import me.saket.swipe.SwipeableActionsBox
 
@@ -48,7 +48,7 @@ import me.saket.swipe.SwipeableActionsBox
 @Composable
 fun HomeView(
     bDModel:RegistrarTareaViewModel
-    ,viewModel: TareasViewModel,
+    , viewModel: TareasViewModel,
     navController: NavController){
     Scaffold(
         topBar = {

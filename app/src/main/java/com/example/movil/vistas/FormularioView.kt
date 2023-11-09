@@ -36,6 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.movil.R
+import com.example.movil.viewModels.TareasViewModel
 import com.example.notastareas.componentes.Alert
 import com.example.notastareas.componentes.IconoSeleccion
 import com.example.notastareas.componentes.MainButtonRegistrar
@@ -44,7 +45,7 @@ import com.example.notastareas.componentes.SelectorFecha
 import com.example.notastareas.componentes.SelectorMultimedia
 import com.example.notastareas.componentes.SpaceAlto
 import com.example.notastareas.models.Notas
-import com.example.notastareas.viewModels.TareasViewModel
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -117,7 +118,7 @@ fun ContentFormularioView(paddingValues: PaddingValues,
         MainTextFieldPersonalizado(
             value = viewModel.estado.nombre,
             onValueChange = { viewModel.onValue(it, "nombre") },
-            label = stringResource(id = R.string.nombreActicvidd)
+            label = stringResource(id = R.string.nombreA)
         )
 
         SpaceAlto()
