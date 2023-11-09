@@ -1,6 +1,7 @@
 package com.example.movil.navegacion
 
 
+import androidx.activity.viewModels
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavController
 import androidx.navigation.NavType
@@ -27,7 +28,7 @@ fun NavManager(
     //startDestination es donede inicia nuestra app
     NavHost(navController = navController, startDestination = "Home"){
         composable("Home"){
-            HomeView(BDModel, viewModel, navController)
+            HomeView(BDModel, navController)
         }
 
         composable("Formulario"){

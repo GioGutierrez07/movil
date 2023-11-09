@@ -46,8 +46,7 @@ import me.saket.swipe.SwipeableActionsBox
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeView(
-    bDModel: RegistrarTareaViewModel
-    , viewModel: TareasViewModel,
+    bDModel: RegistrarTareaViewModel,
     navController: NavController){
     Scaffold(
         topBar = {

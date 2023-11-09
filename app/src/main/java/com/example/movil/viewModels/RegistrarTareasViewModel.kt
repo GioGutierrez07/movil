@@ -34,7 +34,7 @@ class RegistrarTareaViewModel @Inject constructor(private val repositorio: Notas
     init {
         viewModelScope.launch(Dispatchers.IO) {
             repositorio.getAllNotas().collect{item->
-                if(item.isEmpty()){
+                if(item.isNullOrEmpty()){
                     _notasList.value= emptyList()
                 }else{
                     _notasList.value=item

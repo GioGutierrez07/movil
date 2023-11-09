@@ -87,8 +87,8 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
         val nombre=estado.nombre
         val descripcion=estado.descripcion
         val fecha=estado.fecha
-        val fotos=estado.fotos
-        val audios=estado.audios
+       // val fotos=estado.fotos
+       // val audios=estado.audios
 
         if(!tarea  && !notas ){
             estado= estado.copy(mostrarAlerta = true)

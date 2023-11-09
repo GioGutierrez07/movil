@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId = "com.example.movil"
         minSdk = 24
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -65,8 +65,6 @@ dependencies {
     kapt("com.google.dagger:hilt-compiler:2.46.1")
 
     //Navigation
-    val nav_version = "2.5.3"
-    implementation("androidx.navigation:navigation-compose:$nav_version")
 
     // Swipe
     implementation("me.saket.swipe:swipe:1.1.1")
