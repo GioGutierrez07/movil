@@ -11,9 +11,9 @@ import androidx.navigation.navArgument
 import com.example.movil.RegistrarTareaViewModel
 import com.example.movil.viewModels.TareasViewModel
 
-import com.example.notastareas.views.FormularioEditarView
-import com.example.notastareas.views.FormularioView
-import com.example.notastareas.views.HomeView
+import com.example.movil.views.FormularioEditarView
+import com.example.movil.views.FormularioView
+import com.example.movil.views.HomeView
 
 
 @Composable

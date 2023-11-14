@@ -2,7 +2,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    kotlin ("kapt")
+    id("kotlin-kapt")
     id ("com.google.dagger.hilt.android")
 }
 
@@ -54,9 +54,9 @@ android {
 
 dependencies {
 
-    implementation("androidx.room:room-common:2.6.0")
     // Room
-    val room_version = "2.5.1"
+    val room_version = "2.6.0"
+    implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
 

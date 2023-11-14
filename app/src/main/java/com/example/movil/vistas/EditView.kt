@@ -1,4 +1,4 @@
-package com.example.notastareas.views
+package com.example.movil.views
 
 
 import androidx.compose.foundation.layout.Arrangement
