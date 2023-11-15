@@ -1,9 +1,4 @@
-package com.example.notastareas.views
-
-
-
-
-
+package com.example.movil.vistas
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,9 +27,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.example.movil.Notas
+
 import com.example.movil.R
-import com.example.movil.RegistrarTareaViewModel
+
 import com.example.movil.componentes.Alert
 import com.example.movil.componentes.IconoSeleccion
 import com.example.movil.componentes.MainButtonRegistrar
@@ -44,6 +39,9 @@ import com.example.movil.componentes.SelectorFecha
 import com.example.movil.componentes.SelectorMultimedia
 import com.example.movil.componentes.SpaceAlto
 import com.example.movil.componentes.TitleBar
+import com.example.movil.models.Notas
+import com.example.movil.viewModels.RegistrarTareasViewModel
+
 import com.example.movil.viewModels.TareasViewModel
 
 
@@ -52,7 +50,7 @@ import com.example.movil.viewModels.TareasViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormularioView(
-    bdTarea: RegistrarTareaViewModel,
+    bdTarea: RegistrarTareasViewModel,
     viewModel: TareasViewModel,
     navController: NavController, ) {
     Scaffold(
@@ -77,7 +75,7 @@ fun FormularioView(
 
 @Composable
 fun ContentFormularioView(paddingValues: PaddingValues,
-                          bdTarea: RegistrarTareaViewModel,
+                          bdTarea: RegistrarTareasViewModel,
                           viewModel: TareasViewModel,
                           navController: NavController) {
     Column(
@@ -136,7 +134,9 @@ fun ContentFormularioView(paddingValues: PaddingValues,
         SelectorMultimedia(viewModel )
         SpaceAlto()
 
-        MainButtonRegistrar(text = "registrar", ) {
+
+
+        MainButtonRegistrar(text = "registrar" ) {
             //lo que realzara el boton
             viewModel.validarCampos()
             //guardaer los datos de la tarea

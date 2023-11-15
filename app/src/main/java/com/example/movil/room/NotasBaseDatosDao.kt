@@ -1,4 +1,4 @@
-package com.example.movil
+package com.example.movil.room
 
 
 
@@ -9,6 +9,8 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 
+import com.example.movil.models.Notas
+
 import kotlinx.coroutines.flow.Flow
 
 
@@ -16,7 +18,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NotasDataBaseDao {
     //CRUD
-
+    //desde la esta interface la parasremos al repositorio
     @Query("SELECT * FROM notas")
     fun getNotas(): Flow<List<Notas>>
 

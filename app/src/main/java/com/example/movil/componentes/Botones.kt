@@ -34,6 +34,7 @@ fun BotonFlotante(contenedorColor:Color ,colorContenido: Color, onclick:()->Unit
 
 @Composable
 fun BotonPersonalizado(
+    valido:Boolean=false,
     texto: String,
     onClick: () -> Unit,
     colorFondo: Color = Color.Black,
@@ -56,7 +57,8 @@ fun BotonPersonalizado(
 fun MainButtonRegistrar(
     text: String,
     color: Color = MaterialTheme.colorScheme.primary,
-    onClick: () -> Unit
+    onClick: () -> Unit,
+
 ) {
     OutlinedButton(
         onClick = onClick, colors = ButtonDefaults.outlinedButtonColors(

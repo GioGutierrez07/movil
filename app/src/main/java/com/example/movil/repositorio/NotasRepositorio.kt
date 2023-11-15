@@ -1,7 +1,8 @@
 package com.example.movil.repositorio
 
-import com.example.movil.Notas
-import com.example.movil.NotasDataBaseDao
+
+import com.example.movil.models.Notas
+import com.example.movil.room.NotasDataBaseDao
 
 
 import kotlinx.coroutines.Dispatchers

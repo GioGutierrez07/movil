@@ -1,4 +1,5 @@
 package com.example.movil.viewModels
+
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -76,9 +77,7 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
         estado=estado.copy( audios = false,
             fotos =true)
     }
-
     fun buscar(){
-
     }
 
     fun validarCampos(): Boolean{
