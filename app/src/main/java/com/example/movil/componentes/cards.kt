@@ -23,6 +23,7 @@ import androidx.compose.runtime.ComposeCompilerApi
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalConsumer
 
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -48,7 +49,9 @@ fun CardMain(
     tipo: String,
     onclickMostrarMas:()->Unit,
     mostrarMAs: Boolean,
-    onclick: () -> Unit
+    cardMaxWhi: Modifier=Modifier.padding(horizontal = 16.dp, vertical = 16.dp).fillMaxWidth(),
+    onclick: () -> Unit,
+
 ){
     Card(
             modifier = Modifier.padding(10.dp)
@@ -57,10 +60,7 @@ fun CardMain(
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 16.dp)
-                .fillMaxWidth()
-
+            modifier = cardMaxWhi
 
         ) {
             Column(
@@ -88,20 +88,22 @@ fun CardMain(
         }
         if(mostrarMAs ){
 
-           TextRow(texto = nombre)
-           TextRow(texto = fecha)
-           TextRow(texto = descripcion)
+           TextRow(texto = nombre, cardMaxWhi )
+           TextRow(texto = fecha, cardMaxWhi)
+           TextRow(texto = descripcion, cardMaxWhi)
 
            SpaceAlto()
             Row(
                 horizontalArrangement = Arrangement.SpaceAround,
                 modifier = Modifier.padding(horizontal = 70.dp)
             ) {
+                /*
                 Button(
                     onClick = { /* */ },
                     modifier=Modifier.padding(horizontal = 10.dp) ) {
                     Text("Editar")
                 }
+                */
                 Spacer(Modifier.width(8.dp))
 
                 SpaceAbajo()
@@ -112,9 +114,9 @@ fun CardMain(
 }
 
 @Composable
-fun TextRow(texto: String){
+fun TextRow(texto: String ,modifier: Modifier=Modifier.fillMaxWidth()){
     Row(
-        modifier =Modifier.fillMaxWidth()
+        modifier =modifier
     ) {
         Text(text = texto,
               fontSize = 16.sp,
@@ -139,6 +141,7 @@ fun MainCardPre(){
         tipo = "Tarea",
         {},
         mostrarMAs = false,
+        cardMaxWhi=Modifier.padding(horizontal = 16.dp, vertical = 16.dp).fillMaxWidth(),
         {}
     )
 }

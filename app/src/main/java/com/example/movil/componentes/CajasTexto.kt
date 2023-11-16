@@ -23,7 +23,8 @@ fun TextFieldPersonalizado(
     etiqueta: String,
     placeholder: String,
     icono: ImageVector? = null,
-    multiLinea: Boolean
+    multiLinea: Boolean,
+    modifier: Modifier = Modifier.fillMaxWidth().padding(8.dp),
 ) {
     OutlinedTextField(
         value = texto,
@@ -31,9 +32,7 @@ fun TextFieldPersonalizado(
         label = { Text(etiqueta) },
         placeholder = { Text(text = placeholder) },
         leadingIcon = { icono?.let { Icon(imageVector = icono, contentDescription = null) } },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
+        modifier = modifier,
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Done
         ),

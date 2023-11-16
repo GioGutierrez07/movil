@@ -2,6 +2,7 @@ package com.example.movil.navegacion
 
 
 
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 
 import androidx.navigation.NavType
@@ -17,12 +18,15 @@ import com.example.movil.vistas.FormularioEditarView
 
 import com.example.movil.vistas.FormularioView
 import com.example.movil.vistas.HomeView
+import com.example.movil.vistas.ModalModificar
+import com.example.movil.vistas.NotasApp
 
 
 @Composable
 fun NavManager(
     bDModel: RegistrarTareasViewModel,
-    viewModel: TareasViewModel
+    viewModel: TareasViewModel,
+    windowSize:WindowWidthSizeClass
 ){
 
     val navController = rememberNavController()
@@ -30,7 +34,7 @@ fun NavManager(
     //startDestination es donede inicia nuestra app
     NavHost(navController = navController, startDestination = "Home"){
         composable("Home"){
-            HomeView(bDModel, navController)
+            NotasApp(bDModel, navController, windowSize,viewModel)
         }
 
         composable("Formulario"){
@@ -43,6 +47,14 @@ fun NavManager(
         )){
             val id =it.arguments?.getLong("id") ?:0
             FormularioEditarView(bDModel ,viewModel , navController,id)
+        }
+
+        composable("EditarModal/{id}", arguments = listOf(
+            navArgument("id"){
+                type= NavType.LongType }
+        )){
+            val id =it.arguments?.getLong("id") ?:0
+            ModalModificar(bDModel ,viewModel , navController,id,onDismissRequest = {!viewModel.estado.tarea})
         }
 
 

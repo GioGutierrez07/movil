@@ -59,6 +59,9 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
         )
     }
 
+    fun editar(){
+        estado=estado.copy( editar = true)
+    }
 
     fun esTarea(){
         estado=estado.copy( tarea = true,

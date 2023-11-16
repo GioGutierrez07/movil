@@ -9,6 +9,9 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 
 import androidx.compose.ui.Modifier
 
@@ -22,6 +25,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint  //indica que toda la ativity utilizara dagger y hilt
 class MainActivity : ComponentActivity() {
+    @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -35,7 +39,12 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NavManager(bDModel =tareaViewM , viewModel = estadoTarea)
+                    val windowSize = calculateWindowSizeClass(this)
+                    //para vista previa WindowWidthSizeClass.Compact,
+                    NavManager(
+                        bDModel =tareaViewM ,
+                        viewModel = estadoTarea,
+                        windowSize = windowSize.widthSizeClass)
                 }
             }
         }

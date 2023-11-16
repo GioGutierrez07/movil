@@ -69,6 +69,9 @@ dependencies {
     // Swipe
     implementation("me.saket.swipe:swipe:1.1.1")
 
+    //pantallas
+    implementation("androidx.compose.material3:material3-window-size-class")
+
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
