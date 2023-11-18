@@ -228,10 +228,10 @@ fun HommeTablet(paddingValues: PaddingValues,
 fun ContenidoHomeTablet(paddingValues: PaddingValues,
                         bDModel:RegistrarTareasViewModel,
                         navController: NavController,
-                        viewModel: TareasViewModel){
+                        viewModel: TareasViewModel) {
 
     Column(
-        modifier= Modifier
+        modifier = Modifier
             .padding(paddingValues)
             .padding(10.dp)
             .fillMaxSize(),
@@ -244,36 +244,37 @@ fun ContenidoHomeTablet(paddingValues: PaddingValues,
             onTextoCambiado = { /*viewModel.onValue(it,"nombre")*/ },
             etiqueta = stringResource(id = R.string.labelBuscar),
             placeholder = stringResource(id = R.string.placeholderBuscar),
-            icono =  Icons.Default.Create ,
-            multiLinea = false)//  cambiar el icono aquí
+            icono = Icons.Default.Create,
+            multiLinea = false
+        )//  cambiar el icono aquí
 
         SpaceAlto()
         val actividalesList by bDModel.notasList.collectAsState()
-
+        var id: Long = 0
         LazyColumn {
-            items(actividalesList){item->
+            items(actividalesList) { item ->
 
                 //eliminar elemento
-                val eliminar= SwipeAction(
-                    icon= rememberVectorPainter(Icons.Default.Delete ),
+                val eliminar = SwipeAction(
+                    icon = rememberVectorPainter(Icons.Default.Delete),
                     background = Color.Red,
-                    onSwipe = {bDModel.deleteNota(item)}
+                    onSwipe = { bDModel.deleteNota(item) }
                 )
                 //endActions para eliminar de izquierda a derecha starActions de derecha a
                 SwipeableActionsBox(endActions = listOf(eliminar), swipeThreshold = 100.dp) {
 
                     CardMain(
                         id = item.id.toString(),
-                        nombre = item.nombre ,
+                        nombre = item.nombre,
                         fecha = item.fecha,
-                        descripcion =item.descripcion ,
-                        tipo = item.tipo ,
+                        descripcion = item.descripcion,
+                        tipo = item.tipo,
                         onclickMostrarMas = { bDModel.cambiarMostrar() },
                         mostrarMAs = bDModel.mostrarMas
-                    ){
+                    ) {
                         //navController.navigate("Editar/${item.id}")
-
-
+                        viewModel.editar()
+                        viewModel.idEstado(item.id)
                     }
 
                 }
@@ -281,10 +282,15 @@ fun ContenidoHomeTablet(paddingValues: PaddingValues,
             }
         }
 
+        if (viewModel.estado.editar) {
+            ModalModificar(bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar()}
+
+        }
+
 
     }
-
 }
+
 
 
 

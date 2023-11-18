@@ -48,7 +48,7 @@ fun NavManager(
             val id =it.arguments?.getLong("id") ?:0
             FormularioEditarView(bDModel ,viewModel , navController,id)
         }
-
+        /*
         composable("EditarModal/{id}", arguments = listOf(
             navArgument("id"){
                 type= NavType.LongType }
@@ -56,6 +56,8 @@ fun NavManager(
             val id =it.arguments?.getLong("id") ?:0
             ModalModificar(bDModel ,viewModel , navController,id,onDismissRequest = {!viewModel.estado.tarea})
         }
+
+         */
 
 
 

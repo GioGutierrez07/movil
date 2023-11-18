@@ -188,15 +188,20 @@ fun ModalModificar( bdTarea: RegistrarTareasViewModel,
                     navController: NavController,
                     id: Long,
                     onDismissRequest: () -> Unit) {
+
     Dialog(
-        onDismissRequest = { onDismissRequest() },
+        onDismissRequest = {  },
     ) {
+
         // Contenido de la ventana modal
         Column(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background)
                 .padding(16.dp)
         ) {
+            MainIconButton(icon = Icons.Default.ArrowBack) {
+                navController.popBackStack()
+            }
             // Contenido de la ventana modal, por ejemplo, algunos textos y un botón de cierre
             LaunchedEffect(Unit) {
                 viewModel.getTaresById(id)
@@ -285,9 +290,9 @@ fun ModalModificar( bdTarea: RegistrarTareasViewModel,
         }
 
     }
+}
 
 
-        }
 
 
 

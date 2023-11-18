@@ -45,7 +45,11 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
         }
     }
 
-
+   fun idEstado(it:Long){
+       estado=estado.copy(
+           id=it
+       )
+   }
 
     fun limpiar() {
         estado = estado.copy(

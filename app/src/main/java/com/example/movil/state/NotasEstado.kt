@@ -9,4 +9,5 @@ data class NotasEstado(val nombre: String="",
                        val notas:Boolean=false,
                        val fotos:Boolean=false,
                        val audios:Boolean=false,
-                       val editar:Boolean=false)
+                       val editar:Boolean=false,
+                       val id:Long=0)
