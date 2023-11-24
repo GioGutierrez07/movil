@@ -35,6 +35,7 @@ import com.example.movil.componentes.IconoSeleccion
 import com.example.movil.componentes.MainButtonRegistrar
 import com.example.movil.componentes.MainIconButton
 import com.example.movil.componentes.MainTextFieldPersonalizado
+import com.example.movil.componentes.MultimediaPickerExample
 import com.example.movil.componentes.SelectorFecha
 import com.example.movil.componentes.SelectorMultimedia
 import com.example.movil.componentes.SpaceAlto
@@ -86,7 +87,8 @@ fun ContentFormularioView(paddingValues: PaddingValues,
         //verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
+        //multimedia
+        MultimediaPickerExample()
         Row(
             modifier = Modifier
                 .fillMaxWidth()
