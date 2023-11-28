@@ -31,6 +31,7 @@ import androidx.navigation.NavController
 import com.example.movil.R
 
 import com.example.movil.componentes.Alert
+import com.example.movil.componentes.AudioRecorderButton
 import com.example.movil.componentes.IconoSeleccion
 import com.example.movil.componentes.MainButtonRegistrar
 import com.example.movil.componentes.MainIconButton
@@ -89,6 +90,8 @@ fun ContentFormularioView(paddingValues: PaddingValues,
     ) {
         //multimedia
         MultimediaPickerExample()
+        //audio
+        AudioRecorderButton()
         Row(
             modifier = Modifier
                 .fillMaxWidth()
