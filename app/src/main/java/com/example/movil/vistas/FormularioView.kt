@@ -41,6 +41,7 @@ import androidx.navigation.NavController
 import com.example.movil.R
 
 import com.example.movil.componentes.Alert
+import com.example.movil.componentes.AudioRecorderButton
 import com.example.movil.componentes.CameraButtonExample
 import com.example.movil.componentes.IconoSeleccion
 import com.example.movil.componentes.MainButtonRegistrar
@@ -104,6 +105,7 @@ fun ContentFormularioView(paddingValues: PaddingValues,
         //audio
        // VoiceNotesComposable()
 
+            AudioRecorderButton()
 
         Row(
             modifier = Modifier
