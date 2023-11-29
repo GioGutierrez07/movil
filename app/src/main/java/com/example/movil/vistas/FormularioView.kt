@@ -51,7 +51,7 @@ import com.example.movil.componentes.SelectorFecha
 import com.example.movil.componentes.SelectorMultimedia
 import com.example.movil.componentes.SpaceAlto
 import com.example.movil.componentes.TitleBar
-import com.example.movil.componentes.VoiceNotesComposable
+
 import com.example.movil.models.Notas
 import com.example.movil.viewModels.RegistrarTareasViewModel
 
@@ -72,7 +72,7 @@ fun FormularioView(
                 ),
                 navigationIcon = {
                     MainIconButton(icon = Icons.Default.ArrowBack) {
-                        navController.popBackStack()
+                        navController.navigate("home")
                     }
                 }
             )
@@ -102,7 +102,7 @@ fun ContentFormularioView(paddingValues: PaddingValues,
         //multimedia
         MultimediaPickerExample()
         //audio
-        VoiceNotesComposable()
+       // VoiceNotesComposable()
 
 
         Row(
@@ -163,7 +163,8 @@ fun ContentFormularioView(paddingValues: PaddingValues,
                     nombre = viewModel.estado.nombre,
                     fecha = viewModel.estado.fecha,
                     descripcion = viewModel.estado.descripcion,
-                    tipo= if(viewModel.estado.tarea) "Tarea" else "Nota"
+                    tipo= if(viewModel.estado.tarea) "Tarea" else "Nota",
+                    //foto = viewModel.bitmapToByteArray(viewModel.imagenBitmap)
                 )
             )
             //regresamos a la pantalla principal

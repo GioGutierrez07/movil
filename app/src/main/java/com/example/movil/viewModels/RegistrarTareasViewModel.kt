@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movil.models.Notas
 import com.example.movil.repositorio.NotasRepositorio
-import com.example.movil.state.NotasEstado
+
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,6 +29,8 @@ class RegistrarTareasViewModel @Inject constructor(private val repositorio: Nota
             mostrarMas=true
         }
     }
+
+
 
     init {
         viewModelScope.launch(Dispatchers.IO) {

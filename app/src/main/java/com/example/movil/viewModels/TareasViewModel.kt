@@ -2,6 +2,7 @@ package com.example.movil.viewModels
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,6 +23,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -30,10 +32,12 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
     var estado by mutableStateOf(NotasEstado())
         private set
 
+    val foto by mutableStateOf<ImageBitmap?>(null)
+
 
   ///estados de la para tomar una foto
   var capturedImage by mutableStateOf<ImageBitmap?>(null)
-
+   var imagenBitmap by mutableStateOf<Bitmap?>(null)
     val context: Context
         @Composable
         get() = LocalContext.current
@@ -49,6 +53,7 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
             // Manejo del bitmap de la imagen capturada
             if (bitmap != null) {
                 capturedImage = bitmap.asImageBitmap()
+                imagenBitmap=bitmap
             }
         }
 
@@ -77,6 +82,9 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
             }
         }
     }
+
+
+
 
    fun idEstado(it:Long){
        estado=estado.copy(
@@ -146,4 +154,15 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
             mostrarAlerta = false
         )
     }
+
+    fun bitmapToByteArray(bitmap: Bitmap?): ByteArray {
+        val stream = ByteArrayOutputStream()
+        bitmap?.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        return stream.toByteArray()
+    }
+
+    fun byteArrayToBitmap(byteArray: ByteArray): Bitmap {
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+    }
+
 }

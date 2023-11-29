@@ -1,6 +1,7 @@
 package com.example.movil.componentes
 
 
+import android.graphics.Bitmap
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -47,6 +48,7 @@ fun CardMain(
     fecha: String,
     descripcion: String,
     tipo: String,
+    //imagen:Bitmap,
     onclickMostrarMas:()->Unit,
     mostrarMAs: Boolean,
     cardMaxWhi: Modifier=Modifier.padding(horizontal = 16.dp, vertical = 16.dp).fillMaxWidth(),

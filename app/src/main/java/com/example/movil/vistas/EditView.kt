@@ -163,7 +163,8 @@ fun ContentFormularioEditarView(
                     nombre = viewModel.estado.nombre,
                     fecha = viewModel.estado.fecha,
                     descripcion = viewModel.estado.descripcion,
-                    tipo= if(viewModel.estado.tarea) "Tarea" else "Nota"
+                    tipo= if(viewModel.estado.tarea) "Tarea" else "Nota",
+                   // foto = viewModel.bitmapToByteArray(viewModel.imagenBitmap)
                 )
             )
             //regresamos a la pantalla principal
@@ -276,7 +277,8 @@ fun ModalModificar( bdTarea: RegistrarTareasViewModel,
                             nombre = viewModel.estado.nombre,
                             fecha = viewModel.estado.fecha,
                             descripcion = viewModel.estado.descripcion,
-                            tipo = if (viewModel.estado.tarea) "Tarea" else "Nota"
+                            tipo = if (viewModel.estado.tarea) "Tarea" else "Nota",
+                         //   foto = viewModel.bitmapToByteArray(viewModel.imagenBitmap)
                         )
                     )
                     //regresamos a la pantalla principal

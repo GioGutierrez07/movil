@@ -18,5 +18,7 @@ data class Notas(
     val descripcion: String,
     @ColumnInfo(name="tipo")
     val tipo: String,
+   // @ColumnInfo(name="foto")
+  //  val foto: ByteArray,
 
     )
