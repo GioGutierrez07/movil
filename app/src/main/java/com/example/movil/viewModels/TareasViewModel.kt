@@ -1,8 +1,18 @@
 package com.example.movil.viewModels
 
+import android.content.Context
+import android.graphics.Bitmap
+import androidx.activity.compose.ManagedActivityResultLauncher
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movil.repositorio.NotasRepositorio
@@ -19,6 +29,29 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
 
     var estado by mutableStateOf(NotasEstado())
         private set
+
+
+  ///estados de la para tomar una foto
+  var capturedImage by mutableStateOf<ImageBitmap?>(null)
+
+    val context: Context
+        @Composable
+        get() = LocalContext.current
+
+    val launcher: ManagedActivityResultLauncher<Void?, Bitmap?>
+        @Composable
+        get() = rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.TakePicturePreview()
+        ) { bitmap ->
+            // Manejo del bitmap de la imagen capturada
+            // Por ejemplo, mostrarlo en la UI o guardarlo en el almacenamiento
+
+            // Manejo del bitmap de la imagen capturada
+            if (bitmap != null) {
+                capturedImage = bitmap.asImageBitmap()
+            }
+        }
+
 
     fun onValue(valor: String , texto:String){
 
@@ -63,8 +96,8 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
         )
     }
 
-    fun editar(){
-        estado=estado.copy( editar = true)
+    fun editar(editar: Boolean){
+        estado=estado.copy( editar = editar)
     }
 
     fun esTarea(){

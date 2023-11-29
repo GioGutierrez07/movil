@@ -33,7 +33,9 @@ import java.util.Date
 @Composable
 fun MainIconButton(icon: ImageVector, onClick:() -> Unit){
     IconButton(onClick = onClick) {
-        Icon(imageVector = icon, contentDescription = null, tint = Color.White)
+        Icon(imageVector = icon,
+            contentDescription = null,
+            tint = Color.Black)
     }
 }
 
@@ -80,6 +82,8 @@ fun SelectorFecha(viewModel: TareasViewModel
     val selectorFechaDialog = DatePickerDialog(
         contexto,
         { _, año, mes, día ->
+
+            //es la variable que controla la fecha desde el viewmodel
             viewModel.onValue("$día/${mes + 1}/$año","fecha")
 
         },

@@ -1,5 +1,7 @@
 package com.example.movil.vistas
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -20,9 +23,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -46,9 +56,6 @@ import com.example.movil.models.Notas
 import com.example.movil.viewModels.RegistrarTareasViewModel
 
 import com.example.movil.viewModels.TareasViewModel
-
-
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -81,7 +88,7 @@ fun ContentFormularioView(paddingValues: PaddingValues,
                           bdTarea: RegistrarTareasViewModel,
                           viewModel: TareasViewModel,
                           navController: NavController) {
-    Column(
+    LazyColumn(
         modifier = Modifier
             .padding(paddingValues)
             .padding(10.dp)
@@ -89,12 +96,15 @@ fun ContentFormularioView(paddingValues: PaddingValues,
         //verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        items(1){
+
+
         //multimedia
         MultimediaPickerExample()
         //audio
         VoiceNotesComposable()
-        //tomar foto
-        CameraButtonExample()
+
+
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -139,15 +149,14 @@ fun ContentFormularioView(paddingValues: PaddingValues,
         SelectorFecha(viewModel)
         SpaceAlto()
 
-        SelectorMultimedia(viewModel )
+        SelectorMultimedia(viewModel)
         SpaceAlto()
-
-
 
         MainButtonRegistrar(text = "registrar" ) {
             //lo que realzara el boton
-            viewModel.validarCampos()
+           // viewModel.validarCampos()
             //guardaer los datos de la tarea
+            if(!viewModel.validarCampos()) return@MainButtonRegistrar
 
             bdTarea.addNota(
                 Notas(
@@ -173,6 +182,7 @@ fun ContentFormularioView(paddingValues: PaddingValues,
                 confirmText = "Aceptar",
                 onConfirmClick = { viewModel.cancelAlert() }) { }
         }
+    }
     }
 }
 

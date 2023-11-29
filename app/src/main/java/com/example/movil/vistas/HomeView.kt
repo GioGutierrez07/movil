@@ -123,7 +123,7 @@ fun HomeView(
             HommeTablet(it,bDModel,navController, viewModel )
         }else{
             //ContenidoHome(it,bDModel,navController)
-            ContenidoHome(it,bDModel,navController)
+            ContenidoHome(it,bDModel,navController,viewModel)
         }
 
     }
@@ -133,7 +133,8 @@ fun HomeView(
 @Composable
 fun ContenidoHome(paddingValues: PaddingValues,
                   bDModel:RegistrarTareasViewModel,
-                  navController: NavController){
+                  navController: NavController,
+                  viewModel:TareasViewModel) {
 
     Column(
         modifier= Modifier
@@ -175,10 +176,17 @@ fun ContenidoHome(paddingValues: PaddingValues,
                         onclickMostrarMas = { bDModel.cambiarMostrar() },
                         mostrarMAs = bDModel.mostrarMas
                     ){
-                        navController.navigate("Editar/${item.id}")
+                        //navController.navigate("Editar/${item.id}")
+                        viewModel.editar(true)
+                        viewModel.idEstado(item.id)
                     }
 
                 }
+                if (viewModel.estado.editar) {
+                    ModalModificar(bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar(false)}
+
+                }
+
 
             }
         }
@@ -273,7 +281,7 @@ fun ContenidoHomeTablet(paddingValues: PaddingValues,
                         mostrarMAs = bDModel.mostrarMas
                     ) {
                         //navController.navigate("Editar/${item.id}")
-                        viewModel.editar()
+                        viewModel.editar(true)
                         viewModel.idEstado(item.id)
                     }
 
@@ -283,7 +291,7 @@ fun ContenidoHomeTablet(paddingValues: PaddingValues,
         }
 
         if (viewModel.estado.editar) {
-            ModalModificar(bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar()}
+            ModalModificar(bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar(false)}
 
         }
 

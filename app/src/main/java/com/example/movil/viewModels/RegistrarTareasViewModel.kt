@@ -20,7 +20,6 @@ class RegistrarTareasViewModel @Inject constructor(private val repositorio: Nota
 
     private val _notasList= MutableStateFlow<List<Notas>>(emptyList())
     val notasList = _notasList.asStateFlow()
-
     var mostrarMas by mutableStateOf(false)
 
     fun cambiarMostrar(){
@@ -30,7 +29,6 @@ class RegistrarTareasViewModel @Inject constructor(private val repositorio: Nota
             mostrarMas=true
         }
     }
-
 
     init {
         viewModelScope.launch(Dispatchers.IO) {
