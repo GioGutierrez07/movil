@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import java.io.File
 
-
 @Composable
 fun AudioRecorderButton() {
     val context = LocalContext.current
@@ -105,7 +104,6 @@ fun AudioRecorderButton() {
         ) {
             Text(if (isRecording) "Detener Grabación" else "Iniciar Grabación")
         }
-
 
         // Botón para reproducir el audio
         Button(
