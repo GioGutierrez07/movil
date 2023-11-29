@@ -1,88 +1,77 @@
 package com.example.movil.componentes
 
-import android.Manifest
 import android.media.MediaPlayer
 import android.media.MediaRecorder
-import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-
 import androidx.compose.ui.platform.LocalContext
-import java.io.File
+import java.io.IOException
 
 @Composable
-fun AudioRecorderButton() {
-    val context = LocalContext.current
+fun VoiceNotesComposable() {
     var isRecording by remember { mutableStateOf(false) }
-    var hasPermission by remember { mutableStateOf(false) }
     var isPlaying by remember { mutableStateOf(false) }
-    var isRecordingAvailable by remember { mutableStateOf(false) }
+    val context = LocalContext.current
     val mediaRecorder = remember { MediaRecorder() }
-    val mediaPlayer = MediaPlayer()
+    val mediaPlayer = remember { MediaPlayer() }
+    val audioFilePath = context.filesDir.absolutePath + "/voice_note.3gp"
 
-    val audioFile = File(context.externalCacheDir, "test_audio.3gp")
-
-    val startRecording = {
-        Log.d("AudioRecorder", "Intentando iniciar la grabación")
-        try {
-            mediaRecorder.apply {
-                setAudioSource(MediaRecorder.AudioSource.MIC)
-                setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
-                setOutputFile(audioFile.absolutePath)
-                setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-                prepare()
-                start()
-            }
-            isRecording = true
-            isRecordingAvailable = false
-            Log.d("AudioRecorder", "Grabación iniciada")
-        } catch (e: Exception) {
-            Log.e("AudioRecorder", "Error al iniciar la grabación", e)
-        }
-    }
-
-    val stopRecording = {
-        Log.d("AudioRecorder", "Intentando detener la grabación")
-        try {
-            mediaRecorder.apply {
-                stop()
-                reset()
-                release()
-            }
+    Button(onClick = {
+        if (isRecording) {
+            stopRecording(mediaRecorder)
             isRecording = false
-            isRecordingAvailable = true
-            Log.d("AudioRecorder", "Grabación detenida")
-        } catch (e: Exception) {
-            Log.e("AudioRecorder", "Error al detener la grabación", e)
+        } else {
+            startRecording(mediaRecorder, audioFilePath)
+            isRecording = true
         }
+    }) {
+        Text(if (isRecording) "Detener Grabación" else "Grabar Nota de Voz")
     }
 
-    val startPlaying = {
-        try {
-            mediaPlayer.apply {
-                reset()
-                setDataSource(audioFile.absolutePath)
-                prepare()
-                start()
-                isPlaying = true
-            }
-            mediaPlayer.setOnCompletionListener {
-                isPlaying = false
-                isRecordingAvailable = false // Opcional: resetear después de reproducir
-            }
-        } catch (e: Exception) {
-            Log.e("AudioRecorder", "Error al reproducir el audio", e)
+    Button(onClick = {
+        if (isPlaying) {
+            mediaPlayer.stop()
+            isPlaying = false
+        } else {
+            startPlaying(mediaPlayer, audioFilePath)
+            isPlaying = true
         }
+    }) {
+        Text(if (isPlaying) "Detener Reproducción" else "Reproducir Nota de Voz")
     }
+}
 
-    val requestPermissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        hasPermission = isGranted
-        if (isGranted && !isRecording) {
-            startRecording()
+fun startRecording(mediaRecorder: MediaRecorder, filePath: String) {
+    try {
+        mediaRecorder.apply {
+            setAudioSource(MediaRecorder.AudioSource.MIC)
+            setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP)
+            setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+            setOutputFile(filePath)
+            prepare()
+            start()
         }
+    } catch (e: IOException) {
+        e.printStackTrace()
+    }
+}
+
+fun stopRecording(mediaRecorder: MediaRecorder) {
+    mediaRecorder.apply {
+        stop()
+        release()
+    }
+}
+
+fun startPlaying(mediaPlayer: MediaPlayer, filePath: String) {
+    try {
+        mediaPlayer.apply {
+            setDataSource(filePath)
+            prepare()
+            start()
+        }
+    } catch (e: IOException) {
+        e.printStackTrace()
     }
 }
