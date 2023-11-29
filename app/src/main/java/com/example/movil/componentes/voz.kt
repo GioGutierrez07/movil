@@ -105,6 +105,7 @@ fun AudioRecorderButton() {
             Text(if (isRecording) "Detener Grabación" else "Iniciar Grabación")
         }
 
+
         // Botón para reproducir el audio
         Button(
             onClick = {
