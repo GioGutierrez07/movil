@@ -68,7 +68,6 @@ fun CameraButtonExample() {
     }
 }
 
-
 fun hasCameraPermission(context: Context): Boolean {
     return ContextCompat.checkSelfPermission(
         context,
@@ -83,5 +82,6 @@ fun requestCameraPermission(activity: Context) {
         PERMISSION_CAMERA_CODE
     )
 }
+
 
 const val PERMISSION_CAMERA_CODE = 101
