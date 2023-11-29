@@ -31,6 +31,7 @@ import androidx.navigation.NavController
 import com.example.movil.R
 
 import com.example.movil.componentes.Alert
+import com.example.movil.componentes.AudioRecorderButton
 import com.example.movil.componentes.CameraButtonExample
 import com.example.movil.componentes.IconoSeleccion
 import com.example.movil.componentes.MainButtonRegistrar
@@ -41,7 +42,7 @@ import com.example.movil.componentes.SelectorFecha
 import com.example.movil.componentes.SelectorMultimedia
 import com.example.movil.componentes.SpaceAlto
 import com.example.movil.componentes.TitleBar
-import com.example.movil.componentes.VoiceNotesComposable
+
 import com.example.movil.models.Notas
 import com.example.movil.viewModels.RegistrarTareasViewModel
 
@@ -92,7 +93,7 @@ fun ContentFormularioView(paddingValues: PaddingValues,
         //multimedia
         MultimediaPickerExample()
         //audio
-        VoiceNotesComposable()
+        AudioRecorderButton()
         //tomar foto
         CameraButtonExample()
         Row(
