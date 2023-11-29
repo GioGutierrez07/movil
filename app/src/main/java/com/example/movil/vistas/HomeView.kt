@@ -1,5 +1,7 @@
 package com.example.movil.vistas
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -31,10 +33,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntSize
 
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
@@ -43,13 +49,14 @@ import com.example.movil.R
 
 import com.example.movil.componentes.BotonFlotante
 import com.example.movil.componentes.CardMain
-import com.example.movil.componentes.MainTextFieldPersonalizado
+
 import com.example.movil.componentes.SpaceAlto
 import com.example.movil.componentes.SpaceAncho
 import com.example.movil.componentes.TextFieldPersonalizado
 import com.example.movil.viewModels.RegistrarTareasViewModel
 import com.example.movil.viewModels.TareasViewModel
 import com.example.movil.vistas.utils.ReplyNavigationType
+
 
 
 import me.saket.swipe.SwipeAction
@@ -123,7 +130,7 @@ fun HomeView(
             HommeTablet(it,bDModel,navController, viewModel )
         }else{
             //ContenidoHome(it,bDModel,navController)
-            ContenidoHome(it,bDModel,navController)
+            ContenidoHome(it,bDModel,navController,viewModel)
         }
 
     }
@@ -133,7 +140,8 @@ fun HomeView(
 @Composable
 fun ContenidoHome(paddingValues: PaddingValues,
                   bDModel:RegistrarTareasViewModel,
-                  navController: NavController){
+                  navController: NavController,
+                  viewModel:TareasViewModel) {
 
     Column(
         modifier= Modifier
@@ -158,6 +166,7 @@ fun ContenidoHome(paddingValues: PaddingValues,
         LazyColumn {
             items(actividalesList){item->
 
+
                 //eliminar elemento
                 val eliminar= SwipeAction(
                     icon= rememberVectorPainter(Icons.Default.Delete ),
@@ -166,19 +175,32 @@ fun ContenidoHome(paddingValues: PaddingValues,
                 )
                 //endActions para eliminar de izquierda a derecha starActions de derecha a
                 SwipeableActionsBox(endActions = listOf(eliminar), swipeThreshold = 100.dp) {
+
+                  // val foto= byteArrayToBitmap(item.foto)
+
+
+
                     CardMain(
                         id = item.id.toString(),
                         nombre = item.nombre ,
                         fecha = item.fecha,
                         descripcion =item.descripcion ,
                         tipo = item.tipo ,
+                       // imagen =  bitmapToImageBitmap(foto),
                         onclickMostrarMas = { bDModel.cambiarMostrar() },
                         mostrarMAs = bDModel.mostrarMas
                     ){
-                        navController.navigate("Editar/${item.id}")
+                        //navController.navigate("Editar/${item.id}")
+                        viewModel.editar(true)
+                        viewModel.idEstado(item.id)
                     }
 
                 }
+                if (viewModel.estado.editar) {
+                    ModalModificar(bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar(false)}
+
+                }
+
 
             }
         }
@@ -187,6 +209,14 @@ fun ContenidoHome(paddingValues: PaddingValues,
     }
 
 }
+
+fun byteArrayToBitmap(byteArray: ByteArray): Bitmap {
+    return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+}
+fun bitmapToImageBitmap(bitmap: Bitmap): ImageBitmap {
+    return bitmap.asImageBitmap()
+}
+
 
 @Composable
 fun HommeTablet(paddingValues: PaddingValues,
@@ -263,17 +293,20 @@ fun ContenidoHomeTablet(paddingValues: PaddingValues,
                 //endActions para eliminar de izquierda a derecha starActions de derecha a
                 SwipeableActionsBox(endActions = listOf(eliminar), swipeThreshold = 100.dp) {
 
+                    //val foto= byteArrayToBitmap(item.foto)
+
                     CardMain(
                         id = item.id.toString(),
                         nombre = item.nombre,
                         fecha = item.fecha,
                         descripcion = item.descripcion,
                         tipo = item.tipo,
+                       // imagen =  bitmapToImageBitmap(foto),
                         onclickMostrarMas = { bDModel.cambiarMostrar() },
                         mostrarMAs = bDModel.mostrarMas
                     ) {
                         //navController.navigate("Editar/${item.id}")
-                        viewModel.editar()
+                        viewModel.editar(true)
                         viewModel.idEstado(item.id)
                     }
 
@@ -283,7 +316,7 @@ fun ContenidoHomeTablet(paddingValues: PaddingValues,
         }
 
         if (viewModel.estado.editar) {
-            ModalModificar(bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar()}
+            ModalModificar(bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar(false)}
 
         }
 

@@ -10,6 +10,8 @@ android {
     namespace = "com.example.movil"
     compileSdk = 34
 
+
+
     defaultConfig {
         applicationId = "com.example.movil"
         minSdk = 24
@@ -55,6 +57,7 @@ android {
 dependencies {
 
     implementation("androidx.room:room-common:2.6.0")
+   //implementation("com.google.firebase:firebase-appdistribution-gradle:4.0.1")
     // Room
     val room_version = "2.6.0"
     implementation("androidx.room:room-ktx:$room_version")
@@ -71,6 +74,8 @@ dependencies {
 
     //pantallas
     implementation("androidx.compose.material3:material3-window-size-class")
+
+
 
 
     implementation("androidx.core:core-ktx:1.12.0")

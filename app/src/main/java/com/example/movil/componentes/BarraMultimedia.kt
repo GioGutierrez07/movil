@@ -1,5 +1,9 @@
 package com.example.movil.componentes
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,6 +21,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -29,8 +36,12 @@ import com.example.movil.viewModels.TareasViewModel
 
 @Composable
 fun SelectorMultimedia(
-    viewModel: TareasViewModel
+    viewModel: TareasViewModel,
 ) {
+
+    val context = viewModel.context
+    // Estado para almacenar la imagen capturada
+    val launcher=viewModel.launcher
 
     Row(
         modifier = Modifier
@@ -44,13 +55,27 @@ fun SelectorMultimedia(
             iconoResId = R.drawable.fotos, // Cambia el icono
             texto = "FOTOS",
             onClick = {
+                //solicitar permisos multimedia
+                if (hasCameraPermission(context)) {
+                    launcher.launch(null)
+                } else {
+                    // Solicitar permiso
+                    requestCameraPermission(context)
+                }
                 viewModel.esFoto()
+
             }
         )
+        viewModel.capturedImage?.let { image ->
+            Image(
+                bitmap = image,
+                contentDescription = "Imagen Capturada"
+            )
+        }
 
        SpaceAncho()
         Text(
-            text = "MULTIMEDIA",
+            text =  "Multimedia",
             textAlign = TextAlign.Center,
             color= MaterialTheme.colorScheme.primary,
             fontFamily = FontFamily.Monospace,
@@ -67,6 +92,7 @@ fun SelectorMultimedia(
             iconoResId = R.drawable.audio, // Cambia el icono
             texto = "AUDIOS",
             onClick = {
+
                 viewModel.esAudio()
             }
         )

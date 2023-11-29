@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.movil.models.Notas
 import com.example.movil.repositorio.NotasRepositorio
-import com.example.movil.state.NotasEstado
+
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,7 +20,6 @@ class RegistrarTareasViewModel @Inject constructor(private val repositorio: Nota
 
     private val _notasList= MutableStateFlow<List<Notas>>(emptyList())
     val notasList = _notasList.asStateFlow()
-
     var mostrarMas by mutableStateOf(false)
 
     fun cambiarMostrar(){
@@ -30,6 +29,7 @@ class RegistrarTareasViewModel @Inject constructor(private val repositorio: Nota
             mostrarMas=true
         }
     }
+
 
 
     init {
