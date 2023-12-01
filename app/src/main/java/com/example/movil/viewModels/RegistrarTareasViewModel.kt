@@ -30,8 +30,6 @@ class RegistrarTareasViewModel @Inject constructor(private val repositorio: Nota
         }
     }
 
-
-
     init {
         viewModelScope.launch(Dispatchers.IO) {
             repositorio.getAllNotas().collect{item->

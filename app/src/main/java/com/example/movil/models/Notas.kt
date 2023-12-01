@@ -20,6 +20,11 @@ data class Notas(
     @ColumnInfo(name="tipo")
     val tipo: String,
     @ColumnInfo(name="foto")
-      val foto:  ByteArray?
+      val foto:  ByteArray?,
+    @ColumnInfo(name="audio")
+    val audio: ByteArray?,
+    @ColumnInfo(name="fotoUri")
+    val fotoUri: String
+
 
     )

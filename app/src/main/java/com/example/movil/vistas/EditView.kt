@@ -49,7 +49,9 @@ import com.example.movil.componentes.SelectorMultimedia
 import com.example.movil.componentes.SpaceAlto
 import com.example.movil.componentes.TitleBar
 import com.example.movil.models.Notas
+import com.example.movil.viewModels.FotosViewModel
 import com.example.movil.viewModels.RegistrarTareasViewModel
+import com.example.movil.viewModels.ScannerViewModel
 
 import com.example.movil.viewModels.TareasViewModel
 
@@ -149,7 +151,7 @@ fun ContentFormularioEditarView(
         SelectorFecha(viewModel)
         SpaceAlto()
 
-        SelectorMultimedia(viewModel )
+        //SelectorMultimedia( navController,viewModel,)
         SpaceAlto()
 
         MainButtonRegistrar(text = "Actualizar", ) {
@@ -164,7 +166,9 @@ fun ContentFormularioEditarView(
                     fecha = viewModel.estado.fecha,
                     descripcion = viewModel.estado.descripcion,
                     tipo= if(viewModel.estado.tarea) "Tarea" else "Nota",
-                    foto = viewModel.estado.foto
+                    foto = viewModel.estado.foto,
+                    audio = viewModel.audio,
+                    fotoUri = ""
                 )
             )
             //regresamos a la pantalla principal
@@ -187,7 +191,9 @@ fun ContentFormularioEditarView(
 }
 
 @Composable
-fun ModalModificar( bdTarea: RegistrarTareasViewModel,
+fun ModalModificar(
+        scannerViewModel: ScannerViewModel,
+         bdTarea: RegistrarTareasViewModel,
                     viewModel: TareasViewModel,
                     navController: NavController,
                     id: Long,
@@ -261,7 +267,7 @@ fun ModalModificar( bdTarea: RegistrarTareasViewModel,
                 SelectorFecha(viewModel)
                 SpaceAlto()
 
-                SelectorMultimedia(viewModel)
+               SelectorMultimedia(navController,viewModel,scannerViewModel)
                 SpaceAlto()
 
                 MainButtonRegistrar(text = "Actualizar",) {
@@ -278,7 +284,9 @@ fun ModalModificar( bdTarea: RegistrarTareasViewModel,
                             fecha = viewModel.estado.fecha,
                             descripcion = viewModel.estado.descripcion,
                             tipo = if (viewModel.estado.tarea) "Tarea" else "Nota",
-                             foto = viewModel.estado.foto
+                             foto = viewModel.estado.foto,
+                            audio = viewModel.audio,
+                            fotoUri = ""
                         )
                     )
                     //regresamos a la pantalla principal

@@ -24,16 +24,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -42,26 +36,32 @@ import androidx.navigation.NavController
 import com.example.movil.R
 
 import com.example.movil.componentes.Alert
-import com.example.movil.componentes.AudioRecorderButton
-import com.example.movil.componentes.CameraButtonExample
+
+
 import com.example.movil.componentes.IconoSeleccion
 import com.example.movil.componentes.MainButtonRegistrar
 import com.example.movil.componentes.MainIconButton
 import com.example.movil.componentes.MainTextFieldPersonalizado
-import com.example.movil.componentes.MultimediaPickerExample
+
+
 import com.example.movil.componentes.SelectorFecha
 import com.example.movil.componentes.SelectorMultimedia
 import com.example.movil.componentes.SpaceAlto
 import com.example.movil.componentes.TitleBar
 
 import com.example.movil.models.Notas
+import com.example.movil.viewModels.FotosViewModel
 import com.example.movil.viewModels.RegistrarTareasViewModel
+import com.example.movil.viewModels.ScannerViewModel
 
 import com.example.movil.viewModels.TareasViewModel
+import com.example.movil.vistas.utils.ReplyNavigationType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormularioView(
+    fotosViewModel: FotosViewModel,
+    camara:ScannerViewModel,
     bdTarea: RegistrarTareasViewModel,
     viewModel: TareasViewModel,
     navController: NavController, ) {
@@ -79,14 +79,18 @@ fun FormularioView(
                 }
             )
         }
+
+
     ) {
-        ContentFormularioView(it,bdTarea,viewModel,navController)
+        ContentFormularioView(fotosViewModel,camara,it,bdTarea,viewModel,navController)
     }
 }
 
 
 @Composable
-fun ContentFormularioView(paddingValues: PaddingValues,
+fun ContentFormularioView(fotosViewModel: FotosViewModel,
+                          camara: ScannerViewModel,
+                          paddingValues: PaddingValues,
                           bdTarea: RegistrarTareasViewModel,
                           viewModel: TareasViewModel,
                           navController: NavController) {
@@ -151,35 +155,40 @@ fun ContentFormularioView(paddingValues: PaddingValues,
         SelectorFecha(viewModel)
         SpaceAlto()
 
-        SelectorMultimedia(viewModel)
+        SelectorMultimedia(navController,viewModel,camara)
 
         SpaceAlto()
 
-        MainButtonRegistrar(text = "registrar" ) {
-            //lo que realzara el boton
-           // viewModel.validarCampos()
-            //guardaer los datos de la tarea
-            if(!viewModel.validarCampos()) return@MainButtonRegistrar
+            Row {
 
-            bdTarea.addNota(
-                Notas(
-                    nombre = viewModel.estado.nombre,
-                    fecha = viewModel.estado.fecha,
-                    descripcion = viewModel.estado.descripcion,
-                    tipo= if(viewModel.estado.tarea) "Tarea" else "Nota",
-                    foto = viewModel.estado.foto
-                )
-            )
-            //regresamos a la pantalla principal
-            navController.popBackStack()
-        }
+                MainButtonRegistrar(text = "Registrar" ) {
+                    if(!viewModel.validarCampos()) return@MainButtonRegistrar
 
-        SpaceAlto()
-        MainButtonRegistrar(text = "Limpiar Formurio", color=MaterialTheme.colorScheme.tertiary) {
-            //lo que realzara el boton
-            viewModel.limpiar()
-        }
-            Text(text = viewModel.audio.toString())
+                    bdTarea.addNota(
+                        Notas(
+                            nombre = viewModel.estado.nombre,
+                            fecha = viewModel.estado.fecha,
+                            descripcion = viewModel.estado.descripcion,
+                            tipo= if(viewModel.estado.tarea) "Tarea" else "Nota",
+                            foto = viewModel.estado.foto,
+                            audio=viewModel.audio,
+                            //fotoUri = fotosViewModel.imagenUri.toString()
+                            fotoUri = viewModel.listaUri(fotosViewModel.imagesUri)
+                        )
+                    )
+                    viewModel.limpiar()
+                    //regresamos a la pantalla principal
+                    navController.navigate("Home")
+                }
+
+                MainButtonRegistrar(text = "Limpiar Formurio", color=MaterialTheme.colorScheme.tertiary) {
+                    //lo que realzara el boton
+                    viewModel.limpiar()
+                }
+
+            }
+
+           Text(text = viewModel.audio.toString())
 
         if(viewModel.estado.mostrarAlerta){
             Alert(title = "Alerta",

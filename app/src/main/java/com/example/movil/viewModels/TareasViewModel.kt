@@ -3,6 +3,8 @@ package com.example.movil.viewModels
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Environment
 import android.util.Log
 import androidx.activity.compose.ManagedActivityResultLauncher
@@ -13,11 +15,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import coil.compose.AsyncImagePainter
 import com.example.movil.repositorio.NotasRepositorio
 import com.example.movil.state.NotasEstado
 
@@ -37,7 +41,11 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
     var estado by mutableStateOf(NotasEstado())
         private set
 
+    //audio
     var audio by mutableStateOf<ByteArray?>(null)
+
+    //estdos de reproduccion de audio
+    var isPlaying by mutableStateOf(false)
 
 
   ///estados de la para tomar una foto
@@ -70,12 +78,17 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
             "fecha"-> estado = estado.copy(fecha = valor)
             "descripcion"-> estado = estado.copy(descripcion=valor)
             "tipo"-> estado=estado.copy(tipo = valor)
+            "fotoUri"->estado=estado.copy(fotoUri = valor)
 
         }
     }
 
     fun foto(it: ByteArray){
         estado=estado.copy(foto=it)
+    }
+
+    fun audio(it: ByteArray){
+        estado=estado.copy(audio=it)
     }
 
 
@@ -87,7 +100,9 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
                     fecha = item.fecha,
                     descripcion = item.descripcion,
                     tipo = item.tipo,
-                    foto=item.foto
+                    foto=item.foto,
+                    audio=item.audio,
+                    fotoUri = item.fotoUri
 
                 )
             }
@@ -112,6 +127,7 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
             audios = false,
             tarea = false,
             notas = false,
+            fotoUri = ""
 
         )
         audio=null
@@ -188,6 +204,51 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
 
     fun bitmapToImageBitmap(bitmap: Bitmap?): androidx.compose.ui.graphics.ImageBitmap? {
         return bitmap?.asImageBitmap()
+    }
+
+    //convertir una cade a Uri
+    fun cadenaAuri(cadena:String): Uri {
+        val foto: Uri = Uri.parse(cadena)
+        return foto
+
+    }
+
+    //convertir uri en string
+    fun listaUri(uri: List<Uri>):String{
+        var cadena: String =""
+        uri.forEach {
+            cadena+="$"+it.toString()
+        }
+        return cadena
+    }
+
+    fun retornaListaUri(cadena: String):List<Uri>?{
+           //separamos la cadena para crear una lilsta de strings
+           val lista:List<String> = cadena.split("$")
+           var listaUri: List<Uri>?= emptyList()
+           val listachida= listaUri?.toMutableStateList()
+
+        //itermaos la lista para convertirala en Uris
+
+         lista.forEach {
+             listachida?.add(Uri.parse(it))
+         }
+
+        listaUri=listachida
+        //retornamos la lista uri
+        return  listaUri
+    }
+
+    fun retornaPrimeroListaUri(cadena: String):Uri{
+        //separamos la cadena para crear una lilsta de strings
+        val lista:List<String> = cadena.split("$")
+        var listaUri: List<Uri>?= emptyList()
+        val listachida= listaUri?.toMutableStateList()
+        var foto:Uri
+        //itermaos la lista para convertirala en Uris
+
+        foto=Uri.parse(lista.last())
+        return  foto
     }
 
 

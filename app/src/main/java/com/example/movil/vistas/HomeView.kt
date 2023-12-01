@@ -2,6 +2,7 @@ package com.example.movil.vistas
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -50,6 +52,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import com.example.movil.R
 
 import com.example.movil.componentes.BotonFlotante
@@ -58,7 +61,9 @@ import com.example.movil.componentes.CardMain
 import com.example.movil.componentes.SpaceAlto
 import com.example.movil.componentes.SpaceAncho
 import com.example.movil.componentes.TextFieldPersonalizado
+import com.example.movil.viewModels.FotosViewModel
 import com.example.movil.viewModels.RegistrarTareasViewModel
+import com.example.movil.viewModels.ScannerViewModel
 import com.example.movil.viewModels.TareasViewModel
 import com.example.movil.vistas.utils.ReplyNavigationType
 
@@ -69,7 +74,10 @@ import me.saket.swipe.SwipeableActionsBox
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NotasApp( bDModel: RegistrarTareasViewModel,
+fun NotasApp(
+    fotosViewModel: FotosViewModel,
+    camara:ScannerViewModel,
+             bDModel: RegistrarTareasViewModel,
               navController: NavController,
               windowSize: WindowWidthSizeClass,
               viewModel: TareasViewModel){
@@ -91,13 +99,15 @@ fun NotasApp( bDModel: RegistrarTareasViewModel,
         }
     }
 
-    HomeView(bDModel , navController , navigationType,viewModel )
+    HomeView(fotosViewModel,camara,bDModel , navController , navigationType,viewModel )
     
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeView(
+    fotosViewModel: FotosViewModel,
+    camara: ScannerViewModel,
     bDModel: RegistrarTareasViewModel,
     navController: NavController,
     navigationType: ReplyNavigationType,
@@ -132,10 +142,10 @@ fun HomeView(
         }
     ) {
         if(navigationType== ReplyNavigationType.PERMANENT_NAVIGATION_DRAWER){
-            HommeTablet(it,bDModel,navController, viewModel )
+            HommeTablet(fotosViewModel,camara,it,bDModel,navController, viewModel )
         }else{
             //ContenidoHome(it,bDModel,navController)
-            ContenidoHome(it,bDModel,navController,viewModel)
+            ContenidoHome(fotosViewModel,camara,it,bDModel,navController,viewModel)
         }
 
     }
@@ -144,7 +154,10 @@ fun HomeView(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ContenidoHome(paddingValues: PaddingValues,
+fun ContenidoHome(
+    fotosViewModel: FotosViewModel,
+    camara: ScannerViewModel,
+    paddingValues: PaddingValues,
                   bDModel:RegistrarTareasViewModel,
                   navController: NavController,
                   viewModel:TareasViewModel) {
@@ -187,27 +200,33 @@ fun ContenidoHome(paddingValues: PaddingValues,
 
                     CardMain(
                         id = item.id.toString(),
+                        viewModel,
                         nombre = item.nombre ,
                         fecha = item.fecha,
                         descripcion =item.descripcion ,
                         tipo = item.tipo ,
                         imagen =  imagen,
+                        imagenUri = item.fotoUri,
+                        audio = item.audio,
                         onclickMostrarMas = { bDModel.cambiarMostrar() },
                         mostrarMAs = bDModel.mostrarMas,
                     ){
                         //navController.navigate("Editar/${item.id}")
                         viewModel.editar(true)
                         viewModel.idEstado(item.id)
+
                     }
 
                 }
                 if (viewModel.estado.editar) {
-                    ModalModificar(bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar(false)}
+                    ModalModificar(camara,bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar(false)}
 
                 }
 
 
+
             }
+
         }
 
 
@@ -219,7 +238,10 @@ fun ContenidoHome(paddingValues: PaddingValues,
 
 
 @Composable
-fun HommeTablet(paddingValues: PaddingValues,
+fun HommeTablet(
+    fotosViewModel: FotosViewModel,
+    camara:ScannerViewModel,
+                paddingValues: PaddingValues,
                          bDModel:RegistrarTareasViewModel,
                          navController: NavController,
                          viewModel: TareasViewModel){
@@ -236,7 +258,7 @@ fun HommeTablet(paddingValues: PaddingValues,
                 .padding()
         ) {
             // Contenido de la primera columna
-           ContenidoHomeTablet(paddingValues , bDModel , navController,viewModel )
+           ContenidoHomeTablet(camara,paddingValues , bDModel , navController,viewModel )
         }
 
         // Segunda columna
@@ -248,14 +270,16 @@ fun HommeTablet(paddingValues: PaddingValues,
                 .padding()
         ) {
             // Contenido de la segunda columna
-            FormularioView(bDModel , viewModel , navController )
+            FormularioView(fotosViewModel,camara,bDModel , viewModel , navController )
         }
     }
 
     }
 
 @Composable
-fun ContenidoHomeTablet(paddingValues: PaddingValues,
+fun ContenidoHomeTablet(
+    scannerViewModel: ScannerViewModel,
+    paddingValues: PaddingValues,
                         bDModel:RegistrarTareasViewModel,
                         navController: NavController,
                         viewModel: TareasViewModel) {
@@ -299,11 +323,14 @@ fun ContenidoHomeTablet(paddingValues: PaddingValues,
 
                     CardMain(
                         id = item.id.toString(),
+                        viewModel,
                         nombre = item.nombre,
                         fecha = item.fecha,
                         descripcion = item.descripcion,
                         tipo = item.tipo,
                         imagen =  imagen,
+                        imagenUri = item.fotoUri,
+                        audio = item.audio,
                         onclickMostrarMas = { bDModel.cambiarMostrar() },
                         mostrarMAs = bDModel.mostrarMas
                     ) {
@@ -318,7 +345,7 @@ fun ContenidoHomeTablet(paddingValues: PaddingValues,
         }
 
         if (viewModel.estado.editar) {
-            ModalModificar(bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar(false)}
+            ModalModificar(scannerViewModel,bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar(false)}
 
         }
 

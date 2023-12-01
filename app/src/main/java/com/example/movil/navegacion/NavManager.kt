@@ -10,7 +10,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.movil.notificaciones.Notification
+import com.example.movil.viewModels.FotosViewModel
 import com.example.movil.viewModels.RegistrarTareasViewModel
+import com.example.movil.viewModels.ScannerViewModel
 
 
 import com.example.movil.viewModels.TareasViewModel
@@ -20,10 +23,13 @@ import com.example.movil.vistas.FormularioView
 import com.example.movil.vistas.HomeView
 import com.example.movil.vistas.ModalModificar
 import com.example.movil.vistas.NotasApp
+import com.example.movil.vistas.TabsView
 
 
 @Composable
 fun NavManager(
+    fotosViewModel: FotosViewModel,
+    camare:ScannerViewModel,
     bDModel: RegistrarTareasViewModel,
     viewModel: TareasViewModel,
     windowSize:WindowWidthSizeClass
@@ -34,11 +40,15 @@ fun NavManager(
     //startDestination es donede inicia nuestra app
     NavHost(navController = navController, startDestination = "Home"){
         composable("Home"){
-            NotasApp(bDModel, navController, windowSize,viewModel)
+            NotasApp(fotosViewModel,camare,bDModel, navController, windowSize,viewModel)
         }
 
         composable("Formulario"){
-            FormularioView(bDModel ,viewModel , navController)
+            FormularioView(fotosViewModel,camare,bDModel ,viewModel , navController)
+        }
+
+        composable("Tabs"){
+            TabsView(fotosViewModel,camare,viewModel,navController)
         }
 
         composable("Editar/{id}", arguments = listOf(
@@ -48,17 +58,6 @@ fun NavManager(
             val id =it.arguments?.getLong("id") ?:0
             FormularioEditarView(bDModel ,viewModel , navController,id)
         }
-        /*
-        composable("EditarModal/{id}", arguments = listOf(
-            navArgument("id"){
-                type= NavType.LongType }
-        )){
-            val id =it.arguments?.getLong("id") ?:0
-            ModalModificar(bDModel ,viewModel , navController,id,onDismissRequest = {!viewModel.estado.tarea})
-        }
-
-         */
-
 
 
     }

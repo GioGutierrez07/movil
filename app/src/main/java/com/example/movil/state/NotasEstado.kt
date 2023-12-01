@@ -11,6 +11,8 @@ data class NotasEstado(val nombre: String="",
                        val notas:Boolean=false,
                        val fotos:Boolean=false,
                        val foto: ByteArray?=null,
+                       val audio:ByteArray?=null,
+                       val fotoUri:String="",
                        val audios:Boolean=false,
                        val editar:Boolean=false,
 

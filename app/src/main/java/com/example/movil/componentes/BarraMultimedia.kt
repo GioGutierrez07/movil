@@ -29,14 +29,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.movil.R
+import com.example.movil.viewModels.ScannerViewModel
 import com.example.movil.viewModels.TareasViewModel
 
 
 
 @Composable
 fun SelectorMultimedia(
+    navController: NavController,
     viewModel: TareasViewModel,
+    camara: ScannerViewModel
 ) {
 
     val context = viewModel.context
@@ -55,6 +59,9 @@ fun SelectorMultimedia(
             iconoResId = R.drawable.fotos, // Cambia el icono
             texto = "FOTOS",
             onClick = {
+
+                navController.navigate("Tabs")
+                /*
                 //solicitar permisos multimedia
                 if (hasCameraPermission(context)) {
                     launcher.launch(null)
@@ -63,17 +70,20 @@ fun SelectorMultimedia(
                     requestCameraPermission(context)
                 }
                 viewModel.esFoto()
-
+                 */
             }
         )
+        /*
         viewModel.capturedImage?.let { image ->
             Image(
                 bitmap = image,
                 contentDescription = "Imagen Capturada"
             )
         }
+
+         */
         //guardamos la foto en memoria
-        viewModel.foto(viewModel.bitmapToByteArray(viewModel.imagenBitmap))
+       // viewModel.foto(viewModel.bitmapToByteArray(viewModel.imagenBitmap))
 
     SpaceAncho()
         /*
@@ -88,9 +98,10 @@ fun SelectorMultimedia(
 
         )
     */
-        PlayButton(audioBytes = viewModel.audio)
+        PlayButton(audioBytes = viewModel.audio,viewModel)
 
     SpaceAncho()
+
         RecordButton(viewModel)
       /*
     IconoSeleccion(
@@ -98,7 +109,6 @@ fun SelectorMultimedia(
         iconoResId = R.drawable.audio, // Cambia el icono
         texto = "AUDIOS",
         onClick = {
-
             viewModel.esAudio()
         }
     )

@@ -2,6 +2,8 @@ package com.example.movil.componentes
 
 
 import android.graphics.Bitmap
+import android.net.Uri
+import android.provider.MediaStore.Audio
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -9,6 +11,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -40,6 +44,7 @@ import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType.Companion.Uri
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.text.style.TextAlign
 
@@ -47,35 +52,47 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
 import com.example.movil.R
+import com.example.movil.viewModels.TareasViewModel
 
 import dagger.Provides
 
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CardMain(
     id: String,
+    viewModel: TareasViewModel,
     nombre: String,
     fecha: String,
     descripcion: String,
     tipo: String,
     imagen:ImageBitmap?,
+    imagenUri:String,
+    audio: ByteArray?,
     onclickMostrarMas:()->Unit,
     mostrarMAs: Boolean,
-    cardMaxWhi: Modifier=Modifier.padding(horizontal = 16.dp, vertical = 16.dp).fillMaxWidth(),
+    cardMaxWhi: Modifier= Modifier
+        .padding(horizontal = 16.dp, vertical = 16.dp)
+        .fillMaxWidth(),
     onclick: () -> Unit,
 
 ){
 
     val expandedState = remember { mutableStateOf(false) }
+
     val cardHeight: Dp by animateDpAsState(
-        if (expandedState.value) 400.dp else 100.dp,
+        if (expandedState.value) 500.dp else 200.dp,
         animationSpec = tween(durationMillis = 500)
     )
 
     Card(
-            modifier = Modifier.padding(10.dp).height(cardHeight)
-            .clickable { onclick ()},
+            modifier = Modifier
+                .padding(10.dp)
+                .height(cardHeight)
+                .clickable { onclick() },
         ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -87,16 +104,23 @@ fun CardMain(
 
             ) {
 
+                /*
                 imagen?.let { image ->
                     Image(
                         bitmap = image,
                         contentDescription = "Imagen Capturada",
-                        modifier = Modifier.height(100.dp)
+                        modifier = Modifier
+                            .height(100.dp)
                             .width(100.dp)
                             .clip(CircleShape)
                     )
                 }
-
+                 */
+                Image(painter = rememberAsyncImagePainter(viewModel.retornaPrimeroListaUri(imagenUri))
+                    , contentDescription = "",
+                    Modifier
+                        .width(100.dp)
+                        .height(100.dp))
             }
 
             Text(
@@ -116,24 +140,28 @@ fun CardMain(
 
         }
         if(mostrarMAs){
+            val listaUri= viewModel.retornaListaUri(imagenUri)
+            FlowRow {
+                listaUri?.forEach {it
+                    Image(painter = rememberAsyncImagePainter(it)
+                        , contentDescription = "",
+                        Modifier
+                            .width(40.dp)
+                            .height(40.dp))
+                }
+            }
 
-           TextRow(texto = nombre, cardMaxWhi )
+
+           TextRow(texto = tipo, cardMaxWhi )
            TextRow(texto = fecha, cardMaxWhi)
            TextRow(texto = descripcion, cardMaxWhi)
-
 
            SpaceAlto()
             Row(
                 horizontalArrangement = Arrangement.SpaceAround,
                 modifier = Modifier.padding(horizontal = 70.dp)
             ) {
-                /*
-                Button(
-                    onClick = { /* */ },
-                    modifier=Modifier.padding(horizontal = 10.dp) ) {
-                    Text("Editar")
-                }
-                */
+                PlayButton(audioBytes = audio, viewModele =viewModel )
                 Spacer(Modifier.width(8.dp))
 
                 SpaceAbajo()
@@ -160,22 +188,6 @@ fun TextRow(texto: String ,modifier: Modifier=Modifier.fillMaxWidth()){
 
 
 
-@Preview
-@Composable
-fun MainCardPre(){
-    CardMain(
-        id = "",
-        nombre = "Tarea",
-        fecha = "27/09/2023",
-        descripcion ="esto es una tarea muuy complicada",
-        tipo = "Tarea",
-        imagen = null,
-        {},
-        mostrarMAs = false,
-        cardMaxWhi=Modifier.padding(horizontal = 16.dp, vertical = 16.dp).fillMaxWidth(),
-        {}
-    )
-}
 
 
 
