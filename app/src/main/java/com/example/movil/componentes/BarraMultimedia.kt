@@ -41,7 +41,7 @@ fun SelectorMultimedia(
 
     val context = viewModel.context
     // Estado para almacenar la imagen capturada
-    val launcher=viewModel.launcher
+    val launcher = viewModel.launcher
 
     Row(
         modifier = Modifier
@@ -66,39 +66,37 @@ fun SelectorMultimedia(
 
             }
         )
-
         viewModel.capturedImage?.let { image ->
             Image(
                 bitmap = image,
                 contentDescription = "Imagen Capturada"
             )
         }
+        //guardamos la foto en memoria
+        viewModel.foto(viewModel.bitmapToByteArray(viewModel.imagenBitmap))
 
-        //var nombreRuta=viewModel.guardarImagenRuta(viewModel.imagenBitmap)
-        //viewModel.onValue(nombreRuta,"foto")
-         viewModel.foto(viewModel.bitmapToByteArray(viewModel.imagenBitmap))}
-       SpaceAncho()
-        Text(
-            text =  "Multimedia",
-            textAlign = TextAlign.Center,
-            color= MaterialTheme.colorScheme.primary,
-            fontFamily = FontFamily.Monospace,
-            fontWeight = FontWeight.Bold,
-            fontSize = 30.sp,
-            style = MaterialTheme.typography.displaySmall,
+    SpaceAncho()
+        /*
+    Text(
+        text = "Multimedia",
+        textAlign = TextAlign.Center,
+        color = MaterialTheme.colorScheme.primary,
+        fontFamily = FontFamily.Monospace,
+        fontWeight = FontWeight.Bold,
+        fontSize = 30.sp,
+        style = MaterialTheme.typography.displaySmall,
 
-            )
-
-        SpaceAncho()
-
-        IconoSeleccion(
-            seleccionado = viewModel.estado.audios,
-            iconoResId = R.drawable.audio, // Cambia el icono
-            texto = "AUDIOS",
-            onClick = {
-
-                viewModel.esAudio()
-            }
         )
+    */
+    SpaceAncho()
+    IconoSeleccion(
+        seleccionado = viewModel.estado.audios,
+        iconoResId = R.drawable.audio, // Cambia el icono
+        texto = "AUDIOS",
+        onClick = {
 
+            viewModel.esAudio()
+        }
+    )
+  }
 }
