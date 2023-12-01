@@ -75,6 +75,14 @@ dependencies {
     //pantallas
     implementation("androidx.compose.material3:material3-window-size-class")
 
+    //imagenes
+    implementation("io.coil-kt:coil-compose:2.3.0")
+    //reconocimento de texto en imagenes
+    implementation("com.google.android.gms:play-services-mlkit-text-recognition:19.0.0")
+
+
+     //biblioteca piccaso para mostrar imagenes almacenadas en la memoria del telefono
+    implementation ("com.squareup.picasso:picasso:2.71828")
 
 
 

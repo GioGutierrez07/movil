@@ -66,6 +66,7 @@ fun SelectorMultimedia(
 
             }
         )
+
         viewModel.capturedImage?.let { image ->
             Image(
                 bitmap = image,
@@ -73,6 +74,9 @@ fun SelectorMultimedia(
             )
         }
 
+        //var nombreRuta=viewModel.guardarImagenRuta(viewModel.imagenBitmap)
+        //viewModel.onValue(nombreRuta,"foto")
+         viewModel.foto(viewModel.bitmapToByteArray(viewModel.imagenBitmap))}
        SpaceAncho()
         Text(
             text =  "Multimedia",
@@ -96,5 +100,5 @@ fun SelectorMultimedia(
                 viewModel.esAudio()
             }
         )
-    }
+
 }

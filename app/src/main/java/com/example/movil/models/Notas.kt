@@ -1,5 +1,6 @@
 package com.example.movil.models
 
+import android.graphics.Bitmap
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -18,7 +19,7 @@ data class Notas(
     val descripcion: String,
     @ColumnInfo(name="tipo")
     val tipo: String,
-   // @ColumnInfo(name="foto")
-  //  val foto: ByteArray,
+    @ColumnInfo(name="foto")
+      val foto:  ByteArray?
 
     )

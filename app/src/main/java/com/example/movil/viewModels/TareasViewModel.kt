@@ -3,6 +3,8 @@ package com.example.movil.viewModels
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.Environment
+import android.util.Log
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,6 +26,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
+import java.nio.ByteBuffer
 import javax.inject.Inject
 
 @HiltViewModel
@@ -65,7 +70,12 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
             "fecha"-> estado = estado.copy(fecha = valor)
             "descripcion"-> estado = estado.copy(descripcion=valor)
             "tipo"-> estado=estado.copy(tipo = valor)
+
         }
+    }
+
+    fun foto(it: ByteArray){
+        estado=estado.copy(foto=it)
     }
 
 
@@ -76,7 +86,8 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
                     nombre = item.nombre,
                     fecha = item.fecha,
                     descripcion = item.descripcion,
-                    tipo = item.tipo
+                    tipo = item.tipo,
+                    foto=item.foto
 
                 )
             }
@@ -156,13 +167,24 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
     }
 
     fun bitmapToByteArray(bitmap: Bitmap?): ByteArray {
+
         val stream = ByteArrayOutputStream()
         bitmap?.compress(Bitmap.CompressFormat.PNG, 100, stream)
         return stream.toByteArray()
     }
 
-    fun byteArrayToBitmap(byteArray: ByteArray): Bitmap {
-        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+    fun byteArrayToBitmap(byteArray: ByteArray?): Bitmap? {
+        return if (byteArray != null) {
+            BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+        } else {
+            null
+        }
     }
+
+
+    fun bitmapToImageBitmap(bitmap: Bitmap?): androidx.compose.ui.graphics.ImageBitmap? {
+        return bitmap?.asImageBitmap()
+    }
+
 
 }

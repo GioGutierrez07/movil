@@ -5,6 +5,9 @@ import android.graphics.BitmapFactory
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowColumn
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -30,6 +33,8 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -137,6 +142,7 @@ fun HomeView(
 }
 
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ContenidoHome(paddingValues: PaddingValues,
                   bDModel:RegistrarTareasViewModel,
@@ -163,9 +169,8 @@ fun ContenidoHome(paddingValues: PaddingValues,
         SpaceAlto()
         val actividalesList by bDModel.notasList.collectAsState()
 
-        LazyColumn {
-            items(actividalesList){item->
-
+        FlowRow {
+            actividalesList.forEach(){item->
 
                 //eliminar elemento
                 val eliminar= SwipeAction(
@@ -176,8 +181,8 @@ fun ContenidoHome(paddingValues: PaddingValues,
                 //endActions para eliminar de izquierda a derecha starActions de derecha a
                 SwipeableActionsBox(endActions = listOf(eliminar), swipeThreshold = 100.dp) {
 
-                  // val foto= byteArrayToBitmap(item.foto)
-
+                    val foto= viewModel.byteArrayToBitmap(item.foto)
+                    val imagen=viewModel.bitmapToImageBitmap(foto)
 
 
                     CardMain(
@@ -186,9 +191,9 @@ fun ContenidoHome(paddingValues: PaddingValues,
                         fecha = item.fecha,
                         descripcion =item.descripcion ,
                         tipo = item.tipo ,
-                       // imagen =  bitmapToImageBitmap(foto),
+                        imagen =  imagen,
                         onclickMostrarMas = { bDModel.cambiarMostrar() },
-                        mostrarMAs = bDModel.mostrarMas
+                        mostrarMAs = bDModel.mostrarMas,
                     ){
                         //navController.navigate("Editar/${item.id}")
                         viewModel.editar(true)
@@ -210,12 +215,7 @@ fun ContenidoHome(paddingValues: PaddingValues,
 
 }
 
-fun byteArrayToBitmap(byteArray: ByteArray): Bitmap {
-    return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-}
-fun bitmapToImageBitmap(bitmap: Bitmap): ImageBitmap {
-    return bitmap.asImageBitmap()
-}
+
 
 
 @Composable
@@ -294,6 +294,8 @@ fun ContenidoHomeTablet(paddingValues: PaddingValues,
                 SwipeableActionsBox(endActions = listOf(eliminar), swipeThreshold = 100.dp) {
 
                     //val foto= byteArrayToBitmap(item.foto)
+                    val foto= viewModel.byteArrayToBitmap(item.foto)
+                    val imagen=viewModel.bitmapToImageBitmap(foto)
 
                     CardMain(
                         id = item.id.toString(),
@@ -301,7 +303,7 @@ fun ContenidoHomeTablet(paddingValues: PaddingValues,
                         fecha = item.fecha,
                         descripcion = item.descripcion,
                         tipo = item.tipo,
-                       // imagen =  bitmapToImageBitmap(foto),
+                        imagen =  imagen,
                         onclickMostrarMas = { bDModel.cambiarMostrar() },
                         mostrarMAs = bDModel.mostrarMas
                     ) {

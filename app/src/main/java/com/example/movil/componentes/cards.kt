@@ -24,6 +24,7 @@ import androidx.compose.runtime.ComposeCompilerApi
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.modifier.modifierLocalConsumer
 
 import androidx.compose.ui.res.painterResource
@@ -48,7 +49,7 @@ fun CardMain(
     fecha: String,
     descripcion: String,
     tipo: String,
-    //imagen:Bitmap,
+    imagen:ImageBitmap?,
     onclickMostrarMas:()->Unit,
     mostrarMAs: Boolean,
     cardMaxWhi: Modifier=Modifier.padding(horizontal = 16.dp, vertical = 16.dp).fillMaxWidth(),
@@ -68,11 +69,14 @@ fun CardMain(
             Column(
 
             ) {
-                Image(
-                    painter = painterResource(R.drawable.astronauta),
-                    contentDescription = "",
-                    modifier = Modifier.size(100.dp)
-                )
+
+                imagen?.let { image ->
+                    Image(
+                        bitmap = image,
+                        contentDescription = "Imagen Capturada"
+                    )
+                }
+
             }
 
             Text(
@@ -83,16 +87,18 @@ fun CardMain(
                 modifier = Modifier.padding(horizontal = 10.dp)
             )
             IconoPersonalizable(
-                onClick = { onclickMostrarMas() },
+                onClick = {
+                            onclickMostrarMas()},
                 icono = R.drawable.add
             )
 
         }
-        if(mostrarMAs ){
+        if(mostrarMAs){
 
            TextRow(texto = nombre, cardMaxWhi )
            TextRow(texto = fecha, cardMaxWhi)
            TextRow(texto = descripcion, cardMaxWhi)
+           TextRow(texto = imagen.toString(), cardMaxWhi)
 
            SpaceAlto()
             Row(
@@ -141,6 +147,7 @@ fun MainCardPre(){
         fecha = "27/09/2023",
         descripcion ="esto es una tarea muuy complicada",
         tipo = "Tarea",
+        imagen = null,
         {},
         mostrarMAs = false,
         cardMaxWhi=Modifier.padding(horizontal = 16.dp, vertical = 16.dp).fillMaxWidth(),
