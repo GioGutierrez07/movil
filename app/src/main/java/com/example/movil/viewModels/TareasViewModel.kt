@@ -37,7 +37,7 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
     var estado by mutableStateOf(NotasEstado())
         private set
 
-    val foto by mutableStateOf<ImageBitmap?>(null)
+    var audio by mutableStateOf<ByteArray?>(null)
 
 
   ///estados de la para tomar una foto
@@ -111,8 +111,12 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
             fotos = false,
             audios = false,
             tarea = false,
-            notas = false
+            notas = false,
+
         )
+        audio=null
+        imagenBitmap=null
+        capturedImage=null
     }
 
     fun editar(editar: Boolean){

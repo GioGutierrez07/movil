@@ -88,7 +88,11 @@ fun SelectorMultimedia(
 
         )
     */
+        PlayButton(audioBytes = viewModel.audio)
+
     SpaceAncho()
+        RecordButton(viewModel)
+      /*
     IconoSeleccion(
         seleccionado = viewModel.estado.audios,
         iconoResId = R.drawable.audio, // Cambia el icono
@@ -98,5 +102,7 @@ fun SelectorMultimedia(
             viewModel.esAudio()
         }
     )
+
+       */
   }
 }

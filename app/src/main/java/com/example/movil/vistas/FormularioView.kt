@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -101,11 +102,10 @@ fun ContentFormularioView(paddingValues: PaddingValues,
 
 
         //multimedia
-        MultimediaPickerExample()
+       // MultimediaPickerExample()
         //audio
        // VoiceNotesComposable()
-
-            AudioRecorderButton()
+            // AudioRecorderButton()
 
         Row(
             modifier = Modifier
@@ -152,6 +152,7 @@ fun ContentFormularioView(paddingValues: PaddingValues,
         SpaceAlto()
 
         SelectorMultimedia(viewModel)
+
         SpaceAlto()
 
         MainButtonRegistrar(text = "registrar" ) {
@@ -178,6 +179,7 @@ fun ContentFormularioView(paddingValues: PaddingValues,
             //lo que realzara el boton
             viewModel.limpiar()
         }
+            Text(text = viewModel.audio.toString())
 
         if(viewModel.estado.mostrarAlerta){
             Alert(title = "Alerta",
