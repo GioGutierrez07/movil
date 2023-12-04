@@ -1,5 +1,6 @@
 package com.example.movil.componentes
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
@@ -11,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -49,14 +51,14 @@ fun TextFieldPersonalizado(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainTextFieldPersonalizado(value: String, onValueChange: (String) -> Unit, label: String) {
+fun MainTextFieldPersonalizado(
+        modifer:Modifier=Modifier.padding(horizontal = 30.dp).fillMaxSize(),
+        value: String, onValueChange: (String) -> Unit, label: String) {
     OutlinedTextField(
         value = value,
         onValueChange = onValueChange,
         label = { Text(text = label) },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 30.dp)
+        modifier = modifer
     )
 }

@@ -70,7 +70,8 @@ fun GalleryView(viewModel: ScannerViewModel, viewModelFotos:FotosViewModel) {
                 }
                 .padding(16.dp, 8.dp),
             painter = rememberAsyncImagePainter(image),
-            contentDescription = null
+            contentDescription = null,
+
         )
 
         Spacer(modifier = Modifier.height(25.dp))

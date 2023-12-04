@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.movil.componentes.BotonFlotante
+import com.example.movil.componentes.VideoGrabar
 import com.example.movil.viewModels.FotosViewModel
 import com.example.movil.viewModels.ScannerViewModel
 import com.example.movil.viewModels.TareasViewModel
@@ -63,12 +64,14 @@ fun TabsView(
     ) {
 
         var selectedTab by remember { mutableStateOf(0) }
-        val tabs = listOf("Galeria", "Camara", "Coleccion")
+        val tabs = listOf("Galeria", "Camara", "Coleccion", "Video")
+
+
 
         Column (Modifier.padding(50.dp)){
 
             TabRow(selectedTabIndex = selectedTab,
-                contentColor = Color.Black,
+                contentColor = MaterialTheme.colorScheme.tertiary,
                 indicator = { tabPositions ->
                     TabRowDefaults.Indicator(
                         Modifier.tabIndicatorOffset(tabPositions[selectedTab])
@@ -88,6 +91,7 @@ fun TabsView(
                 0 -> GalleryView(viewModel,fotosViewModel).apply { viewModel.cleanText() }
                 1 -> CameraView(viewModel, fotosViewModel).apply { viewModel.cleanText() }
                 2 -> CollectionGalleryView(fotosViewModel)
+                3->  VideoGrabar(viewModel = fotosViewModel)
             }
         }
     }

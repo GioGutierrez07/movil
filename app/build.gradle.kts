@@ -107,7 +107,13 @@ dependencies {
         val nav_version = "2.5.3"
 
         implementation("androidx.navigation:navigation-compose:$nav_version")
+        //para reproducui el video
+       // implementation ("com.github.halilozercan:ComposeVideoPlayer:0.1.0")
     }
+
+     // ExoPlayer
+    implementation("com.google.android.exoplayer:exoplayer:2.15.1")
+
 
     //imagenes
     implementation("io.coil-kt:coil-compose:2.3.0")

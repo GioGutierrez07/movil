@@ -102,7 +102,7 @@ class MainActivity : ComponentActivity() {
                 "MySuperChannel",
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply {
-                description = "SUSCRIBETE"
+                description = "hola"
             }
 
             val notificationManager: NotificationManager =

@@ -61,6 +61,7 @@ import com.example.movil.componentes.CardMain
 import com.example.movil.componentes.SpaceAlto
 import com.example.movil.componentes.SpaceAncho
 import com.example.movil.componentes.TextFieldPersonalizado
+import com.example.movil.componentes.VideoGrabar
 import com.example.movil.viewModels.FotosViewModel
 import com.example.movil.viewModels.RegistrarTareasViewModel
 import com.example.movil.viewModels.ScannerViewModel
@@ -348,6 +349,7 @@ fun ContenidoHomeTablet(
             ModalModificar(scannerViewModel,bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar(false)}
 
         }
+
 
 
     }
