@@ -24,7 +24,8 @@ data class Notas(
     @ColumnInfo(name="audio")
     val audio: ByteArray?,
     @ColumnInfo(name="fotoUri")
-    val fotoUri: String
-
+    val fotoUri: String,
+    @ColumnInfo(name="videoUri")
+    val videoUri: String
 
     )

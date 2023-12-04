@@ -23,6 +23,7 @@ import com.example.movil.vistas.FormularioView
 import com.example.movil.vistas.HomeView
 import com.example.movil.vistas.ModalModificar
 import com.example.movil.vistas.NotasApp
+import com.example.movil.vistas.TabsGaleriaView
 import com.example.movil.vistas.TabsView
 
 
@@ -49,6 +50,10 @@ fun NavManager(
 
         composable("Tabs"){
             TabsView(fotosViewModel,camare,viewModel,navController)
+        }
+
+        composable("TabsGaleria"){
+            TabsGaleriaView(fotosViewModel,camare,viewModel,navController)
         }
 
         composable("Editar/{id}", arguments = listOf(

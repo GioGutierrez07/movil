@@ -1,7 +1,6 @@
 package com.example.movil.vistas
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -31,16 +30,15 @@ import com.example.movil.componentes.VideoGrabar
 import com.example.movil.viewModels.FotosViewModel
 import com.example.movil.viewModels.ScannerViewModel
 import com.example.movil.viewModels.TareasViewModel
-import com.example.movil.vistas.utils.ReplyNavigationType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun TabsView(
-            fotosViewModel: FotosViewModel,
-            viewModel: ScannerViewModel
-            ,tareaviewModel:TareasViewModel,
-             navController: NavController
+fun TabsGaleriaView(
+    fotosViewModel: FotosViewModel,
+    viewModel: ScannerViewModel
+    , tareaviewModel: TareasViewModel,
+    navController: NavController
 ) {
 
     Scaffold(
@@ -59,13 +57,14 @@ fun TabsView(
                 colorContenido = Color.White,
             ){
 
-                    navController.navigate("Formulario")
+                navController.navigate("home")
+                fotosViewModel.LimpiarListas()
             }
         }
     ) {
 
         var selectedTab by remember { mutableStateOf(0) }
-        val tabs = listOf("Galeria", "Camara", "Coleccion", "Video")
+        val tabs = listOf("Coleccion", "Video")
 
 
 
@@ -88,14 +87,11 @@ fun TabsView(
                 }
 
             }
+
             when (selectedTab) {
-                0 -> GalleryView(viewModel,fotosViewModel).apply { viewModel.cleanText() }
-                1 -> CameraView(viewModel, fotosViewModel).apply { viewModel.cleanText() }
-                2 -> CollectionGalleryView(fotosViewModel)
-                3->  VideoGrabar(viewModel = fotosViewModel)
+                0 -> CollectionGalleryView(fotosViewModel).apply {  }
+                1->  VideoGrabar(viewModel = fotosViewModel).apply {  }
             }
         }
     }
 }
-
-

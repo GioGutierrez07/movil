@@ -79,6 +79,7 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
             "descripcion"-> estado = estado.copy(descripcion=valor)
             "tipo"-> estado=estado.copy(tipo = valor)
             "fotoUri"->estado=estado.copy(fotoUri = valor)
+            "videoUri"-> estado=estado.copy(videoUri = valor)
 
         }
     }
@@ -102,7 +103,8 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
                     tipo = item.tipo,
                     foto=item.foto,
                     audio=item.audio,
-                    fotoUri = item.fotoUri
+                    fotoUri = item.fotoUri,
+                    videoUri = item.videoUri
 
                 )
             }
@@ -127,7 +129,8 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
             audios = false,
             tarea = false,
             notas = false,
-            fotoUri = ""
+            fotoUri = "",
+            videoUri = ""
 
         )
         audio=null
@@ -214,9 +217,9 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
     }
 
     //convertir uri en string
-    fun listaUri(uri: List<Uri>):String{
+    fun listaUri(uri: List<Uri>?):String{
         var cadena: String =""
-        uri.forEach {
+        uri?.forEach {
             cadena+="$"+it.toString()
         }
         return cadena

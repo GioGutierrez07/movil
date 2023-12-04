@@ -1,5 +1,6 @@
 package com.example.movil.componentes
 
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
@@ -31,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.movil.R
+import com.example.movil.viewModels.FotosViewModel
 import com.example.movil.viewModels.ScannerViewModel
 import com.example.movil.viewModels.TareasViewModel
 
@@ -115,4 +117,47 @@ fun SelectorMultimedia(
 
        */
   }
+}
+
+@Composable
+fun Multimedia(
+    urisimagen:String,
+    urisVideo: String,
+    fotosViewModel: FotosViewModel,
+    navController: NavController,
+    viewModel: TareasViewModel,
+    camara: ScannerViewModel
+) {
+
+    val context = viewModel.context
+    // Estado para almacenar la imagen capturada
+    val launcher = viewModel.launcher
+
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        IconoSeleccion(
+            seleccionado = viewModel.estado.fotos,
+            iconoResId = R.drawable.fotos, // Cambia el icono
+            texto = "FOTOS",
+            onClick = {
+
+                    fotosViewModel.imagesUri= viewModel.retornaListaUri(urisimagen)
+                    fotosViewModel.videoUris= viewModel.retornaListaUri(urisVideo)
+
+                navController.navigate("TabsGaleria")
+
+            }
+        )
+
+
+        SpaceAncho()
+
+
+
+    }
 }

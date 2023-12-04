@@ -40,7 +40,7 @@ fun GalleryView(viewModel: ScannerViewModel, viewModelFotos:FotosViewModel) {
     val context = LocalContext.current
     val clipboard = LocalClipboardManager.current
 
-    var image: Any? by remember { mutableStateOf(R.drawable.fotos) }
+    var image: Any? by remember { mutableStateOf(R.drawable.baseline_photo_library_24) }
 
     val photoPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()

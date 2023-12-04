@@ -40,6 +40,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.textInputServiceFactory
 
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -52,9 +53,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.example.movil.R
+import com.example.movil.viewModels.FotosViewModel
+import com.example.movil.viewModels.ScannerViewModel
 import com.example.movil.viewModels.TareasViewModel
 
 import dagger.Provides
@@ -64,12 +68,15 @@ import dagger.Provides
 @Composable
 fun CardMain(
     id: String,
+    fotosViewModel: FotosViewModel,
+    navController: NavController,
+     camara:ScannerViewModel,
     viewModel: TareasViewModel,
     nombre: String,
     fecha: String,
     descripcion: String,
     tipo: String,
-    imagen:ImageBitmap?,
+    videoUris:String,
     imagenUri:String,
     audio: ByteArray?,
     onclickMostrarMas:()->Unit,
@@ -84,7 +91,7 @@ fun CardMain(
     val expandedState = remember { mutableStateOf(false) }
 
     val cardHeight: Dp by animateDpAsState(
-        if (expandedState.value) 500.dp else 200.dp,
+        if (expandedState.value) 300.dp else 150.dp,
         animationSpec = tween(durationMillis = 500)
     )
 
@@ -104,18 +111,6 @@ fun CardMain(
 
             ) {
 
-                /*
-                imagen?.let { image ->
-                    Image(
-                        bitmap = image,
-                        contentDescription = "Imagen Capturada",
-                        modifier = Modifier
-                            .height(100.dp)
-                            .width(100.dp)
-                            .clip(CircleShape)
-                    )
-                }
-                 */
                 Image(painter = rememberAsyncImagePainter(viewModel.retornaPrimeroListaUri(imagenUri))
                     , contentDescription = "",
                     Modifier
@@ -139,18 +134,8 @@ fun CardMain(
             )
 
         }
-        if(mostrarMAs){
-            val listaUri= viewModel.retornaListaUri(imagenUri)
-            FlowRow {
-                listaUri?.forEach {it
-                    Image(painter = rememberAsyncImagePainter(it)
-                        , contentDescription = "",
-                        Modifier
-                            .width(40.dp)
-                            .height(40.dp))
-                }
-            }
 
+        Multimedia(imagenUri,videoUris,fotosViewModel,navController = navController, viewModel = viewModel, camara = camara)
 
            TextRow(texto = tipo, cardMaxWhi )
            TextRow(texto = fecha, cardMaxWhi)
@@ -169,7 +154,7 @@ fun CardMain(
        }
     }
 
-}
+
 
 @Composable
 fun TextRow(texto: String ,modifier: Modifier=Modifier.fillMaxWidth()){
@@ -182,7 +167,6 @@ fun TextRow(texto: String ,modifier: Modifier=Modifier.fillMaxWidth()){
               textAlign = TextAlign.Center
         )
 
-        SpaceAlto()
     }
 }
 

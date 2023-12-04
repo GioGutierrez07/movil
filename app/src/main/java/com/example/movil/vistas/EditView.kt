@@ -168,7 +168,8 @@ fun ContentFormularioEditarView(
                     tipo= if(viewModel.estado.tarea) "Tarea" else "Nota",
                     foto = viewModel.estado.foto,
                     audio = viewModel.audio,
-                    fotoUri = ""
+                    fotoUri = "",
+                    videoUri = ""
                 )
             )
             //regresamos a la pantalla principal
@@ -286,7 +287,8 @@ fun ModalModificar(
                             tipo = if (viewModel.estado.tarea) "Tarea" else "Nota",
                              foto = viewModel.estado.foto,
                             audio = viewModel.audio,
-                            fotoUri = ""
+                            fotoUri = "",
+                            videoUri = ""
                         )
                     )
                     //regresamos a la pantalla principal

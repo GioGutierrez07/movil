@@ -33,7 +33,7 @@ object AppModule {
         return Room.databaseBuilder(//creador de  la base de datos
             context,
             NotasDataBase::class.java,
-            "notas32_db"
+            "notas32e_db"
         ).fallbackToDestructiveMigration().build()
     }
 

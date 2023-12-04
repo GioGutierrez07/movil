@@ -62,6 +62,8 @@ import com.example.movil.componentes.SpaceAlto
 import com.example.movil.componentes.SpaceAncho
 import com.example.movil.componentes.TextFieldPersonalizado
 import com.example.movil.componentes.VideoGrabar
+import com.example.movil.componentes.VideoPlayer
+import com.example.movil.componentes.camara
 import com.example.movil.viewModels.FotosViewModel
 import com.example.movil.viewModels.RegistrarTareasViewModel
 import com.example.movil.viewModels.ScannerViewModel
@@ -183,8 +185,13 @@ fun ContenidoHome(
         SpaceAlto()
         val actividalesList by bDModel.notasList.collectAsState()
 
-        FlowRow {
-            actividalesList.forEach(){item->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize(),
+            //verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            items(actividalesList){ item->
 
                 //eliminar elemento
                 val eliminar= SwipeAction(
@@ -195,18 +202,21 @@ fun ContenidoHome(
                 //endActions para eliminar de izquierda a derecha starActions de derecha a
                 SwipeableActionsBox(endActions = listOf(eliminar), swipeThreshold = 100.dp) {
 
-                    val foto= viewModel.byteArrayToBitmap(item.foto)
-                    val imagen=viewModel.bitmapToImageBitmap(foto)
+                    //val foto= viewModel.byteArrayToBitmap(item.foto)
+                  //  val imagen=viewModel.bitmapToImageBitmap(foto)
 
 
                     CardMain(
                         id = item.id.toString(),
+                        fotosViewModel,
+                        navController,
+                        camara,
                         viewModel,
                         nombre = item.nombre ,
                         fecha = item.fecha,
                         descripcion =item.descripcion ,
                         tipo = item.tipo ,
-                        imagen =  imagen,
+                        videoUris =  item.videoUri,
                         imagenUri = item.fotoUri,
                         audio = item.audio,
                         onclickMostrarMas = { bDModel.cambiarMostrar() },
@@ -223,7 +233,6 @@ fun ContenidoHome(
                     ModalModificar(camara,bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar(false)}
 
                 }
-
 
 
             }
@@ -259,7 +268,7 @@ fun HommeTablet(
                 .padding()
         ) {
             // Contenido de la primera columna
-           ContenidoHomeTablet(camara,paddingValues , bDModel , navController,viewModel )
+           ContenidoHomeTablet(fotosViewModel,camara,paddingValues , bDModel , navController,viewModel )
         }
 
         // Segunda columna
@@ -277,8 +286,10 @@ fun HommeTablet(
 
     }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ContenidoHomeTablet(
+    fotosViewModel: FotosViewModel,
     scannerViewModel: ScannerViewModel,
     paddingValues: PaddingValues,
                         bDModel:RegistrarTareasViewModel,
@@ -324,12 +335,15 @@ fun ContenidoHomeTablet(
 
                     CardMain(
                         id = item.id.toString(),
+                        fotosViewModel,
+                        navController,
+                        scannerViewModel,
                         viewModel,
                         nombre = item.nombre,
                         fecha = item.fecha,
                         descripcion = item.descripcion,
                         tipo = item.tipo,
-                        imagen =  imagen,
+                        videoUris =  item.videoUri,
                         imagenUri = item.fotoUri,
                         audio = item.audio,
                         onclickMostrarMas = { bDModel.cambiarMostrar() },
@@ -342,13 +356,31 @@ fun ContenidoHomeTablet(
 
                 }
 
+                var uris= viewModel.retornaListaUri(item.videoUri)
+                Text(text ="hola")
+                Text(text = item.videoUri)
+                FlowColumn {
+                 
+                    uris?.forEach {
+                        VideoPlayer(
+                            videoUri = it,
+                            modifier = Modifier
+                                .height(600.dp)
+                                .fillMaxWidth()
+                        )
+
+                    }
+                }
+
             }
+
         }
 
         if (viewModel.estado.editar) {
             ModalModificar(scannerViewModel,bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar(false)}
 
         }
+
 
 
 

@@ -9,8 +9,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -51,7 +53,7 @@ fun CollectionGalleryView( viewModel: FotosViewModel){
                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                 )
             }) {
-                Icon(painter = painterResource(id = R.drawable.fotos), contentDescription = null)
+                Icon(painter = painterResource(id = R.drawable.baseline_photo_library_24), contentDescription = null)
             }
 
         }
@@ -60,27 +62,26 @@ fun CollectionGalleryView( viewModel: FotosViewModel){
             .padding(paddingValues)
             .fillMaxSize()) {
 
-            FlowRow {
-                viewModel.imagesUri.forEach { uri ->
-                    AsyncImage(
-                        model = ImageRequest.Builder(context).data(uri)
-                            .crossfade(enable = true).build(),
-                        contentDescription = "",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .size(120.dp)
-                            .padding(start = 5.dp, end = 5.dp, top = 10.dp)
-                            .clickable {   }
-                    )
-
-
+            LazyRow {
+                items(1) {
+                    viewModel.imagesUri?.forEach { uri ->
+                        AsyncImage(
+                            model = ImageRequest.Builder(context).data(uri)
+                                .crossfade(enable = true).build(),
+                            contentDescription = "",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(start = 5.dp, end = 5.dp, top = 10.dp)
+                                .clickable { }
+                        )
+                    }
                 }
 
 
             }
-
         }
     }
 
+    }
 
-}
+

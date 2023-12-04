@@ -10,8 +10,15 @@ import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Icon
@@ -24,11 +31,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.FileProvider
+import com.example.movil.R
 import com.example.movil.viewModels.FotosViewModel
 import com.example.movil.vistas.createImageFile
 import com.google.android.exoplayer2.MediaItem
@@ -41,6 +51,7 @@ import java.util.Objects
 
 
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun VideoGrabar(viewModel: FotosViewModel) {
 
@@ -58,9 +69,11 @@ fun VideoGrabar(viewModel: FotosViewModel) {
     val videoLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.CaptureVideo(),
         onResult = { success ->
+
             if (success && videoUri != null) {
                 videoUris = videoUris.plus(videoUri!!)
-                viewModel.videoUris=viewModel.videoUris.plus(videoUri!!)
+               // viewModel.videoUri=videoUri
+                //viewModel.videoUris=viewModel.videoUris.plus(videoUri!!)
             }
         }
     )
@@ -73,20 +86,48 @@ fun VideoGrabar(viewModel: FotosViewModel) {
                 context.packageName + ".provider", file
             )
            videoUri=uri
-
+              viewModel.videoUri=uri
+              viewModel.agregarVideo(uri)
             videoLauncher.launch(uri)
         }) {
-            Icon(Icons.Filled.CheckCircle, contentDescription = "Grabar vídeo")
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_photo_camera_front_24),
+                contentDescription = "Grabar vídeo",
+                Modifier.width(300.dp).height(300.dp))
         }
-       Text(text = viewModel.videoUri.toString())
+       //2Text(text = videoUri.toString())
+       if (viewModel.videoUris?.size != 0) {
+           LazyRow(
+               modifier = Modifier
+                   .padding(10.dp)
+                   .fillMaxSize(),
+               //verticalArrangement = Arrangement.Center,
 
-        VideoPlayer(
-            videoUri = videoUri,
-            modifier = Modifier
-                .height(400.dp)
-                .fillMaxWidth()
-        )
+           ) {
+               items(1){item->
 
+                   viewModel.videoUris?.forEach {
+                       VideoPlayer(
+                           videoUri = it,
+                           modifier = Modifier
+                               .fillMaxSize()
+                       )
+                   }
+
+               }
+
+               }
+
+           /*
+           VideoPlayer(
+               videoUri = viewModel.videoUri,
+               modifier = Modifier
+                   .height(400.dp)
+                   .fillMaxWidth()
+           )
+
+            */
+       }
 
 }
 

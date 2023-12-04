@@ -176,7 +176,8 @@ fun ContentFormularioView(fotosViewModel: FotosViewModel,
                             foto = viewModel.estado.foto,
                             audio=viewModel.audio,
                             //fotoUri = fotosViewModel.imagenUri.toString()
-                            fotoUri = viewModel.listaUri(fotosViewModel.imagesUri)
+                            fotoUri = viewModel.listaUri(fotosViewModel.imagesUri),
+                            videoUri = viewModel.listaUri(fotosViewModel.videoUris)
                         )
                     )
                     viewModel.limpiar()
@@ -191,7 +192,7 @@ fun ContentFormularioView(fotosViewModel: FotosViewModel,
 
             }
 
-           //Text(text = viewModel.audio.toString())
+         //  Text(text = fotosViewModel.videoUris.toString())
 
         if(viewModel.estado.mostrarAlerta){
             Alert(title = "Alerta",
