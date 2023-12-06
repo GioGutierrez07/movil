@@ -2,6 +2,7 @@ package com.example.movil
 
 
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -22,8 +23,11 @@ import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
 
 import androidx.compose.ui.Modifier
+import androidx.core.content.ContextCompat
+import androidx.core.content.getSystemService
 
 import com.example.movil.navegacion.NavManager
+import com.example.movil.notificaciones.AlarmSchedulerImpl
 import com.example.movil.notificaciones.Notification
 import com.example.movil.notificaciones.Notification.Companion.NOTIFICATION_ID
 import com.example.movil.ui.theme.MovilTheme
@@ -32,6 +36,7 @@ import com.example.movil.viewModels.RegistrarTareasViewModel
 import com.example.movil.viewModels.ScannerViewModel
 
 import com.example.movil.viewModels.TareasViewModel
+
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 
@@ -39,22 +44,11 @@ import java.util.Calendar
 @AndroidEntryPoint  //indica que toda la ativity utilizara dagger y hilt
 class MainActivity : ComponentActivity() {
 
-    companion object {
-        const val MY_CHANNEL_ID = "myChannel"
-    }
-
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /*
-        val myNotificationButton = findViewById<Button>(R.id.btnNotification)
-        createChannel()
-        myNotificationButton.setOnClickListener {
-            scheduleNotification()
-        }
-         */
-        createChannel()
+
 
         val fotosViewModel:FotosViewModel by viewModels()
         val camaraView: ScannerViewModel by viewModels()
@@ -71,7 +65,10 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val windowSize = calculateWindowSizeClass(this)
                     //para vista previa WindowWidthSizeClass.Compact,
+
+
                     NavManager(
+                        alarmScheduler = AlarmSchedulerImpl(applicationContext),
                         fotosViewModel,
                         camaraView,
                         bDModel =tareaViewM ,
@@ -79,10 +76,14 @@ class MainActivity : ComponentActivity() {
                         windowSize = windowSize.widthSizeClass)
                 }
             }
+
         }
+
+
     }
 
-    private fun scheduleNotification() {
+    @SuppressLint("ScheduleExactAlarm")
+     fun scheduleNotification(){
         val intent = Intent(applicationContext, Notification::class.java)
         val pendingIntent = PendingIntent.getBroadcast(
             applicationContext,
@@ -92,25 +93,23 @@ class MainActivity : ComponentActivity() {
         )
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, Calendar.getInstance().timeInMillis + 15000, pendingIntent)
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, Calendar.getInstance().timeInMillis+10000,pendingIntent)
     }
 
-    private fun createChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+ fun crearCanal(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             val channel = NotificationChannel(
-                MY_CHANNEL_ID,
-                "MySuperChannel",
+                Notification.MY_CHANNEL_ID,
+                "super",
                 NotificationManager.IMPORTANCE_DEFAULT
             ).apply {
-                description = "hola"
+                description="Funciona yaaaa"
             }
-
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-            notificationManager.createNotificationChannel(channel)
+            val notifica: NotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+            notifica.createNotificationChannel(channel)
         }
     }
+
 
 }
 

@@ -43,6 +43,7 @@ import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.textInputServiceFactory
 
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType.Companion.Uri
@@ -91,7 +92,7 @@ fun CardMain(
     val expandedState = remember { mutableStateOf(false) }
 
     val cardHeight: Dp by animateDpAsState(
-        if (expandedState.value) 300.dp else 150.dp,
+        if (expandedState.value) 300.dp else 130.dp,
         animationSpec = tween(durationMillis = 500)
     )
 
@@ -130,27 +131,28 @@ fun CardMain(
                     expandedState.value = !expandedState.value
                             onclickMostrarMas()
                           },
-                icono = R.drawable.add
+                icono = R.drawable.flechaabajo
             )
 
         }
 
-        Multimedia(imagenUri,videoUris,fotosViewModel,navController = navController, viewModel = viewModel, camara = camara)
-
-           TextRow(texto = tipo, cardMaxWhi )
+        Row(
+            horizontalArrangement = Arrangement.SpaceAround,
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+                .fillMaxWidth()
+        ) {
+            Multimedia(imagenUri,videoUris,fotosViewModel,navController = navController, viewModel = viewModel, camara = camara)
+            SpaceAncho(2.dp)
+            PlayButton(audioBytes = audio, viewModele =viewModel )
+        }
+        SpaceAlto(10.dp)
+          // TextRow(texto = tipo, cardMaxWhi )
            TextRow(texto = fecha, cardMaxWhi)
            TextRow(texto = descripcion, cardMaxWhi)
 
-           SpaceAlto()
-            Row(
-                horizontalArrangement = Arrangement.SpaceAround,
-                modifier = Modifier.padding(horizontal = 70.dp)
-            ) {
-                PlayButton(audioBytes = audio, viewModele =viewModel )
-                Spacer(Modifier.width(8.dp))
 
-                SpaceAbajo()
-            }
+
        }
     }
 
@@ -163,6 +165,7 @@ fun TextRow(texto: String ,modifier: Modifier=Modifier.fillMaxWidth()){
     ) {
         Text(text = texto,
               fontSize = 16.sp,
+              fontFamily = FontFamily(Font(R.font.press_start_2p)),
               modifier = Modifier.fillMaxWidth(),
               textAlign = TextAlign.Center
         )

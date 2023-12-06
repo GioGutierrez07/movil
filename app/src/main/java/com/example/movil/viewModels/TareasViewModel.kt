@@ -33,16 +33,21 @@ import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.nio.ByteBuffer
+import java.text.DateFormat
+import java.util.concurrent.Flow
 import javax.inject.Inject
 
 @HiltViewModel
 class TareasViewModel @Inject constructor(private val repositorio: NotasRepositorio) : ViewModel() {
+
 
     var estado by mutableStateOf(NotasEstado())
         private set
 
     //audio
     var audio by mutableStateOf<ByteArray?>(null)
+
+    var visible by mutableStateOf<Boolean>(false)
 
     //estdos de reproduccion de audio
     var isPlaying by mutableStateOf(false)
@@ -51,6 +56,10 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
   ///estados de la para tomar una foto
   var capturedImage by mutableStateOf<ImageBitmap?>(null)
    var imagenBitmap by mutableStateOf<Bitmap?>(null)
+
+    //para la fecha
+    var fechaFormato by mutableStateOf("")
+
     val context: Context
         @Composable
         get() = LocalContext.current
@@ -110,6 +119,8 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
             }
         }
     }
+
+
 
 
 
@@ -253,6 +264,8 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
         foto=Uri.parse(lista.last())
         return  foto
     }
+
+
 
 
 }

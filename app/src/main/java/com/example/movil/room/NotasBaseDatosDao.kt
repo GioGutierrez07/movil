@@ -25,6 +25,9 @@ interface NotasDataBaseDao {
     @Query("SELECT * FROM notas WHERE id= :id")
     fun gerNotasByID(id: Long): Flow<Notas>
 
+    @Query("SELECT * FROM notas WHERE tipo LIKE :tipo || '%' ")
+    fun gerNotasByTipo(tipo: String):Flow<List<Notas>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(notes: Notas)
 

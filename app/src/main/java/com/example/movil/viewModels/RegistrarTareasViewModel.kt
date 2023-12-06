@@ -22,6 +22,11 @@ class RegistrarTareasViewModel @Inject constructor(private val repositorio: Nota
     val notasList = _notasList.asStateFlow()
     var mostrarMas by mutableStateOf(false)
 
+    private val _notasList2= MutableStateFlow<List<Notas>>(emptyList())
+    val notasList2 = _notasList2.asStateFlow()
+
+    var nota by mutableStateOf("Nota")
+
     fun cambiarMostrar(){
         if(mostrarMas){
             mostrarMas=false
@@ -43,6 +48,22 @@ class RegistrarTareasViewModel @Inject constructor(private val repositorio: Nota
         }
 
     }
+
+    fun buscarCoin(nota:String) {
+            viewModelScope.launch(Dispatchers.IO) {
+                repositorio.getNotasByTipo(nota).collect { item ->
+                    if (item.isEmpty()) {
+                        _notasList2.value = emptyList()
+                    } else {
+                        _notasList2.value = item
+                    }
+
+                }
+            }
+
+    }
+
+
 
     fun addNota(nota: Notas)= viewModelScope.launch { repositorio.addNota(nota) }
     fun updateNota(nota: Notas)= viewModelScope.launch { repositorio.updateNota(nota) }

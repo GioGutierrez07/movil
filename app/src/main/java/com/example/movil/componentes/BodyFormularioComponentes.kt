@@ -2,6 +2,8 @@ package com.example.movil.componentes
 
 import android.app.DatePickerDialog
 import android.icu.util.Calendar
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -26,6 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.movil.R
 import com.example.movil.viewModels.TareasViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 import java.util.Date
 
@@ -70,6 +74,7 @@ fun Alert(
     )
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun SelectorFecha(viewModel: TareasViewModel
 ) {
@@ -86,11 +91,19 @@ fun SelectorFecha(viewModel: TareasViewModel
             //es la variable que controla la fecha desde el viewmodel
             viewModel.onValue("$día/${mes + 1}/$año","fecha")
 
+            // Crear un objeto DateTimeFormatter para formatear la fecha en el formato deseado
+            val fecha = LocalDateTime.of(año, mes + 1, día, 0, 0)
+            val formatoFecha = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
+            viewModel.fechaFormato=fecha.format(formatoFecha)
+
         },
         calendario.get(Calendar.YEAR),
         calendario.get(Calendar.MONTH),
         calendario.get(Calendar.DAY_OF_MONTH)
     )
+
+
+
 
     Row(
         modifier = Modifier

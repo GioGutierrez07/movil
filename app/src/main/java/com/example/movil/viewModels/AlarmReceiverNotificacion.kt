@@ -13,4 +13,7 @@ class AlarmReceiverNotificacion : BroadcastReceiver() {
             context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.notify(1, notification)
     }
+
+
+
 }

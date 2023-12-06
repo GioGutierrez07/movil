@@ -132,18 +132,10 @@ fun Multimedia(
     val context = viewModel.context
     // Estado para almacenar la imagen capturada
     val launcher = viewModel.launcher
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
         IconoSeleccion(
             seleccionado = viewModel.estado.fotos,
             iconoResId = R.drawable.fotos, // Cambia el icono
-            texto = "FOTOS",
+            texto = "Multimedia",
             onClick = {
 
                     fotosViewModel.imagesUri= viewModel.retornaListaUri(urisimagen)
@@ -153,11 +145,4 @@ fun Multimedia(
 
             }
         )
-
-
-        SpaceAncho()
-
-
-
-    }
 }

@@ -33,10 +33,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,6 +48,8 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 
@@ -64,6 +68,7 @@ import com.example.movil.componentes.TextFieldPersonalizado
 import com.example.movil.componentes.VideoGrabar
 import com.example.movil.componentes.VideoPlayer
 import com.example.movil.componentes.camara
+import com.example.movil.notificaciones.AlarmScheduler
 import com.example.movil.viewModels.FotosViewModel
 import com.example.movil.viewModels.RegistrarTareasViewModel
 import com.example.movil.viewModels.ScannerViewModel
@@ -78,6 +83,7 @@ import me.saket.swipe.SwipeableActionsBox
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotasApp(
+    alarmScheduler: AlarmScheduler,
     fotosViewModel: FotosViewModel,
     camara:ScannerViewModel,
              bDModel: RegistrarTareasViewModel,
@@ -102,13 +108,14 @@ fun NotasApp(
         }
     }
 
-    HomeView(fotosViewModel,camara,bDModel , navController , navigationType,viewModel )
+    HomeView(alarmScheduler,fotosViewModel,camara,bDModel , navController , navigationType,viewModel )
     
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeView(
+    alarmScheduler: AlarmScheduler,
     fotosViewModel: FotosViewModel,
     camara: ScannerViewModel,
     bDModel: RegistrarTareasViewModel,
@@ -120,7 +127,10 @@ fun HomeView(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = "Notas Y tareas",color= MaterialTheme.colorScheme.onPrimary) },
+                title = { Text(
+                    text = "Notas Y tareas",
+                    color= MaterialTheme.colorScheme.secondary,
+                    fontFamily = FontFamily(Font(R.font.press_start_2p)) )},
                 colors= TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 )
@@ -145,7 +155,7 @@ fun HomeView(
         }
     ) {
         if(navigationType== ReplyNavigationType.PERMANENT_NAVIGATION_DRAWER){
-            HommeTablet(fotosViewModel,camara,it,bDModel,navController, viewModel )
+            HommeTablet(alarmScheduler,fotosViewModel,camara,it,bDModel,navController, viewModel )
         }else{
             //ContenidoHome(it,bDModel,navController)
             ContenidoHome(fotosViewModel,camara,it,bDModel,navController,viewModel)
@@ -174,72 +184,152 @@ fun ContenidoHome(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        var tipo by remember {
+            mutableStateOf("")
+        }
         TextFieldPersonalizado(
-            texto = "",
-            onTextoCambiado = { /*viewModel.onValue(it,"nombre")*/ },
+            texto = tipo,
+            onTextoCambiado = { tipo=it},
             etiqueta = stringResource(id = R.string.labelBuscar),
             placeholder = stringResource(id = R.string.placeholderBuscar),
             icono =  Icons.Default.Create ,
             multiLinea = false)//  cambiar el icono aquí
 
-        SpaceAlto()
-        val actividalesList by bDModel.notasList.collectAsState()
+        bDModel.buscarCoin(tipo)
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize(),
-            //verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            items(actividalesList){ item->
+        if(tipo != ""){
+           // bDModel.nota=tipo
+            val actividalesList2 by bDModel.notasList2.collectAsState()
+            ///por tipo de nota o tarea///////////////////////////
 
-                //eliminar elemento
-                val eliminar= SwipeAction(
-                    icon= rememberVectorPainter(Icons.Default.Delete ),
-                    background = Color.Red,
-                    onSwipe = {bDModel.deleteNota(item)}
-                )
-                //endActions para eliminar de izquierda a derecha starActions de derecha a
-                SwipeableActionsBox(endActions = listOf(eliminar), swipeThreshold = 100.dp) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize(),
+                //verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                items(actividalesList2) { item ->
 
-                    //val foto= viewModel.byteArrayToBitmap(item.foto)
-                  //  val imagen=viewModel.bitmapToImageBitmap(foto)
+                    //eliminar elemento
+                    val eliminar = SwipeAction(
+                        icon = rememberVectorPainter(Icons.Default.Delete),
+                        background = Color.Red,
+                        onSwipe = { bDModel.deleteNota(item) }
+                    )
+                    //endActions para eliminar de izquierda a derecha starActions de derecha a
+                    SwipeableActionsBox(endActions = listOf(eliminar), swipeThreshold = 100.dp) {
 
+                        //val foto= viewModel.byteArrayToBitmap(item.foto)
+                        //  val imagen=viewModel.bitmapToImageBitmap(foto)
 
-                    CardMain(
-                        id = item.id.toString(),
-                        fotosViewModel,
-                        navController,
-                        camara,
-                        viewModel,
-                        nombre = item.nombre ,
-                        fecha = item.fecha,
-                        descripcion =item.descripcion ,
-                        tipo = item.tipo ,
-                        videoUris =  item.videoUri,
-                        imagenUri = item.fotoUri,
-                        audio = item.audio,
-                        onclickMostrarMas = { bDModel.cambiarMostrar() },
-                        mostrarMAs = bDModel.mostrarMas,
-                    ){
-                        //navController.navigate("Editar/${item.id}")
-                        viewModel.editar(true)
-                        viewModel.idEstado(item.id)
+                        CardMain(
+                            id = item.id.toString(),
+                            fotosViewModel,
+                            navController,
+                            camara,
+                            viewModel,
+                            nombre = item.nombre,
+                            fecha = item.fecha,
+                            descripcion = item.descripcion,
+                            tipo = item.tipo,
+                            videoUris = item.videoUri,
+                            imagenUri = item.fotoUri,
+                            audio = item.audio,
+                            onclickMostrarMas = { bDModel.cambiarMostrar() },
+                            mostrarMAs = bDModel.mostrarMas,
+                        ) {
+                            //navController.navigate("Editar/${item.id}")
+                            viewModel.editar(true)
+                            viewModel.idEstado(item.id)
+
+                        }
+
+                    }
+                    if (viewModel.estado.editar) {
+                        ModalModificar(
+                            fotosViewModel,
+                            camara,
+                            bDModel,
+                            viewModel,
+                            navController,
+                            id = viewModel.estado.id
+                        ) { viewModel.editar(false) }
 
                     }
 
-                }
-                if (viewModel.estado.editar) {
-                    ModalModificar(camara,bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar(false)}
 
                 }
 
+            }
+
+            ///////////////////////////////////////////
+
+        }else {
+
+            SpaceAlto()
+            val actividalesList by bDModel.notasList.collectAsState()
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize(),
+                //verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                items(actividalesList) { item ->
+
+                    //eliminar elemento
+                    val eliminar = SwipeAction(
+                        icon = rememberVectorPainter(Icons.Default.Delete),
+                        background = Color.Red,
+                        onSwipe = { bDModel.deleteNota(item) }
+                    )
+                    //endActions para eliminar de izquierda a derecha starActions de derecha a
+                    SwipeableActionsBox(endActions = listOf(eliminar), swipeThreshold = 100.dp) {
+
+                        //val foto= viewModel.byteArrayToBitmap(item.foto)
+                        //  val imagen=viewModel.bitmapToImageBitmap(foto)
+
+                        CardMain(
+                            id = item.id.toString(),
+                            fotosViewModel,
+                            navController,
+                            camara,
+                            viewModel,
+                            nombre = item.nombre,
+                            fecha = item.fecha,
+                            descripcion = item.descripcion,
+                            tipo = item.tipo,
+                            videoUris = item.videoUri,
+                            imagenUri = item.fotoUri,
+                            audio = item.audio,
+                            onclickMostrarMas = { bDModel.cambiarMostrar() },
+                            mostrarMAs = bDModel.mostrarMas,
+                        ) {
+                            //navController.navigate("Editar/${item.id}")
+                            viewModel.editar(true)
+                            viewModel.idEstado(item.id)
+
+                        }
+
+                    }
+                    if (viewModel.estado.editar) {
+                        ModalModificar(
+                            fotosViewModel,
+                            camara,
+                            bDModel,
+                            viewModel,
+                            navController,
+                            id = viewModel.estado.id
+                        ) { viewModel.editar(false) }
+
+                    }
+
+
+                }
 
             }
 
         }
-
-
     }
 
 }
@@ -249,12 +339,13 @@ fun ContenidoHome(
 
 @Composable
 fun HommeTablet(
+    alarmScheduler: AlarmScheduler,
     fotosViewModel: FotosViewModel,
     camara:ScannerViewModel,
-                paddingValues: PaddingValues,
-                         bDModel:RegistrarTareasViewModel,
-                         navController: NavController,
-                         viewModel: TareasViewModel){
+    paddingValues: PaddingValues,
+    bDModel:RegistrarTareasViewModel,
+    navController: NavController,
+    viewModel: TareasViewModel){
 
     Row(
         modifier = Modifier.fillMaxHeight(),
@@ -280,7 +371,7 @@ fun HommeTablet(
                 .padding()
         ) {
             // Contenido de la segunda columna
-            FormularioView(fotosViewModel,camara,bDModel , viewModel , navController )
+            FormularioView(alarmScheduler,fotosViewModel,camara,bDModel , viewModel , navController )
         }
     }
 
@@ -377,7 +468,7 @@ fun ContenidoHomeTablet(
         }
 
         if (viewModel.estado.editar) {
-            ModalModificar(scannerViewModel,bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar(false)}
+            ModalModificar(fotosViewModel,scannerViewModel,bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar(false)}
 
         }
 

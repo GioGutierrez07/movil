@@ -65,6 +65,17 @@ class FotosViewModel() :ViewModel(){
         videoUris=list
     }
 
+    fun eliminarVideo(video:Uri){
+        val nueva= videoUris?.toMutableList()
+        nueva?.remove(video)
+        videoUris=nueva
+    }
+    fun eliminarDeLaLista(imagem:Uri){
+
+        val nueva= imagesUri?.toMutableList()
+        nueva?.remove(imagem)
+        imagesUri=nueva
+    }
     //audio
 
 }

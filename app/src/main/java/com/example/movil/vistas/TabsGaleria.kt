@@ -22,9 +22,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.movil.R
 import com.example.movil.componentes.BotonFlotante
 import com.example.movil.componentes.VideoGrabar
 import com.example.movil.viewModels.FotosViewModel
@@ -44,7 +47,10 @@ fun TabsGaleriaView(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = "Galeria",color= MaterialTheme.colorScheme.onPrimary) },
+                title = { Text(
+                    text = "Fotos Guardadas",
+                    color= MaterialTheme.colorScheme.secondary,
+                    fontFamily = FontFamily(Font(R.font.press_start_2p)) ) },
                 colors= TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 )
@@ -82,7 +88,10 @@ fun TabsGaleriaView(
                     Tab(
                         selected = selectedTab == index,
                         onClick = { selectedTab = index },
-                        text = { Text(text = titulo, fontSize = 10.sp) },
+                        text = { Text(text = titulo, fontSize = 7.sp,
+                            fontFamily = FontFamily(Font(R.font.press_start_2p))
+                            , color = MaterialTheme.colorScheme.primary
+                            ) },
                     )
                 }
 

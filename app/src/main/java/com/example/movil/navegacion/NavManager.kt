@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.movil.notificaciones.AlarmScheduler
 import com.example.movil.notificaciones.Notification
 import com.example.movil.viewModels.FotosViewModel
 import com.example.movil.viewModels.RegistrarTareasViewModel
@@ -29,6 +30,7 @@ import com.example.movil.vistas.TabsView
 
 @Composable
 fun NavManager(
+    alarmScheduler: AlarmScheduler,
     fotosViewModel: FotosViewModel,
     camare:ScannerViewModel,
     bDModel: RegistrarTareasViewModel,
@@ -41,11 +43,11 @@ fun NavManager(
     //startDestination es donede inicia nuestra app
     NavHost(navController = navController, startDestination = "Home"){
         composable("Home"){
-            NotasApp(fotosViewModel,camare,bDModel, navController, windowSize,viewModel)
+            NotasApp(alarmScheduler,fotosViewModel,camare,bDModel, navController, windowSize,viewModel)
         }
 
         composable("Formulario"){
-            FormularioView(fotosViewModel,camare,bDModel ,viewModel , navController)
+            FormularioView(alarmScheduler,fotosViewModel,camare,bDModel ,viewModel , navController)
         }
 
         composable("Tabs"){
@@ -61,7 +63,7 @@ fun NavManager(
                 type= NavType.LongType }
         )){
             val id =it.arguments?.getLong("id") ?:0
-            FormularioEditarView(bDModel ,viewModel , navController,id)
+            FormularioEditarView(fotosViewModel,bDModel ,viewModel , navController,id)
         }
 
 

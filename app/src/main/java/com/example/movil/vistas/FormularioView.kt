@@ -1,5 +1,12 @@
 package com.example.movil.vistas
 
+import android.Manifest
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
+import android.provider.Settings.Global.getString
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
@@ -25,17 +32,31 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.NavController
+import com.example.movil.MainActivity
 
 import com.example.movil.R
+import com.example.movil.TareasNotas
 
 import com.example.movil.componentes.Alert
 
@@ -52,16 +73,22 @@ import com.example.movil.componentes.SpaceAlto
 import com.example.movil.componentes.TitleBar
 
 import com.example.movil.models.Notas
+import com.example.movil.notificaciones.AlarmItem
+import com.example.movil.notificaciones.AlarmScheduler
+import com.example.movil.notificaciones.Notification
 import com.example.movil.viewModels.FotosViewModel
 import com.example.movil.viewModels.RegistrarTareasViewModel
 import com.example.movil.viewModels.ScannerViewModel
 
 import com.example.movil.viewModels.TareasViewModel
-import com.example.movil.vistas.utils.ReplyNavigationType
+import okhttp3.internal.notify
+import java.time.LocalDateTime
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FormularioView(
+    alarmScheduler: AlarmScheduler,
     fotosViewModel: FotosViewModel,
     camara:ScannerViewModel,
     bdTarea: RegistrarTareasViewModel,
@@ -70,7 +97,12 @@ fun FormularioView(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { TitleBar(name = "Registrar notas o tareas") },
+                title = { Text(
+                    text = "Agregar Notas o Tareas",
+                    color= MaterialTheme.colorScheme.secondary,
+                    fontFamily = FontFamily(Font(R.font.press_start_2p)),
+                    fontSize = 15.sp
+                     ) },
                 colors = TopAppBarDefaults.mediumTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary
                 ),
@@ -84,13 +116,15 @@ fun FormularioView(
 
 
     ) {
-        ContentFormularioView(fotosViewModel,camara,it,bdTarea,viewModel,navController)
+        ContentFormularioView(alarmScheduler,fotosViewModel,camara,it,bdTarea,viewModel,navController)
     }
 }
 
 
 @Composable
-fun ContentFormularioView(fotosViewModel: FotosViewModel,
+fun ContentFormularioView(
+                        alarmScheduler: AlarmScheduler,
+                          fotosViewModel: FotosViewModel,
                           camara: ScannerViewModel,
                           paddingValues: PaddingValues,
                           bdTarea: RegistrarTareasViewModel,
@@ -106,12 +140,22 @@ fun ContentFormularioView(fotosViewModel: FotosViewModel,
     ) {
         items(1){
 
+            val context= LocalContext.current
 
+            var secondText by remember {
+                mutableStateOf("")
+            }
+            var messageText by remember {
+                mutableStateOf("")
+            }
+            var alarmItem : AlarmItem? = null
+
+
+        var nota=TareasNotas()
         //multimedia
        // MultimediaPickerExample()
         //audio
-       // VoiceNotesComposable()
-            // AudioRecorderButton()
+       // VoiceNotesComposable() // AudioRecorderButton()
 
         Row(
             modifier = Modifier
@@ -149,7 +193,10 @@ fun ContentFormularioView(fotosViewModel: FotosViewModel,
         SpaceAlto()
 
         MainTextFieldPersonalizado(
-            modifer = Modifier.fillMaxSize().height(300.dp).padding(horizontal = 30.dp),
+            modifer = Modifier
+                .fillMaxSize()
+                .height(300.dp)
+                .padding(horizontal = 30.dp),
             value = viewModel.estado.descripcion,
             onValueChange = { viewModel.onValue(it, "descripcion") },
             label = stringResource(id = R.string.labelDescripcion)
@@ -180,17 +227,44 @@ fun ContentFormularioView(fotosViewModel: FotosViewModel,
                             videoUri = viewModel.listaUri(fotosViewModel.videoUris)
                         )
                     )
+                   // val fecha=LocalDateTime.parse(viewModel.fechaFormato)
+                     /////////////////////////
+                    alarmItem =
+                        AlarmItem(
+                            LocalDateTime.parse(viewModel.fechaFormato),
+                            message = "Hola tienes una tarea pendiente"
+                        )
+                    alarmItem = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        AlarmItem(
+                            LocalDateTime.parse(viewModel.fechaFormato),
+                            "Tienes una tarea pendiente"
+                        )
+                    } else {
+                        TODO("VERSION.SDK_INT < O")
+                    }
+
+                    ////////////////////////////////////////
+                    alarmItem?.let(alarmScheduler::schedule)
+                    secondText = ""
+                    messageText = ""
+
                     viewModel.limpiar()
+                    fotosViewModel.LimpiarListas()
+
                     //regresamos a la pantalla principal
                     navController.navigate("Home")
+
                 }
 
                 MainButtonRegistrar(text = "Limpiar Formurio", color=MaterialTheme.colorScheme.tertiary) {
                     //lo que realzara el boton
                     viewModel.limpiar()
+                    fotosViewModel.LimpiarListas()
                 }
 
             }
+            //Text(text = LocalDateTime.now().toString())
+            //Text(text = viewModel.fechaFormato)
 
          //  Text(text = fotosViewModel.videoUris.toString())
 
@@ -203,6 +277,10 @@ fun ContentFormularioView(fotosViewModel: FotosViewModel,
     }
     }
 }
+
+
+
+
 
 
 

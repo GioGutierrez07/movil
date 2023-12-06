@@ -18,5 +18,6 @@ class NotasRepositorio @Inject constructor(private  val notasDataBaseDao: NotasD
     suspend fun deleteNota(nota :Notas)= notasDataBaseDao.delete(nota)
     fun getAllNotas(): Flow<List<Notas>> = notasDataBaseDao.getNotas().flowOn(Dispatchers.IO).conflate()
     fun getNotasByID(id:Long): Flow<Notas> = notasDataBaseDao.gerNotasByID(id).flowOn(Dispatchers.IO).conflate()
+    fun getNotasByTipo(tipo:String): Flow<List<Notas>> = notasDataBaseDao.gerNotasByTipo(tipo).flowOn(Dispatchers.IO).conflate()
 
 }

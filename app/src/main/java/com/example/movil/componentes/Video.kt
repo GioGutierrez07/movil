@@ -4,12 +4,14 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.LocusId
+import android.media.AsyncPlayer
 import android.media.browse.MediaBrowser
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
@@ -72,7 +74,7 @@ fun VideoGrabar(viewModel: FotosViewModel) {
 
             if (success && videoUri != null) {
                 videoUris = videoUris.plus(videoUri!!)
-               // viewModel.videoUri=videoUri
+               //1 viewModel.videoUri=videoUri
                 //viewModel.videoUris=viewModel.videoUris.plus(videoUri!!)
             }
         }
@@ -85,10 +87,10 @@ fun VideoGrabar(viewModel: FotosViewModel) {
                 Objects.requireNonNull(context),
                 context.packageName + ".provider", file
             )
-           videoUri=uri
+              videoUri=uri
               viewModel.videoUri=uri
               viewModel.agregarVideo(uri)
-            videoLauncher.launch(uri)
+              videoLauncher.launch(uri)
         }) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_photo_camera_front_24),
@@ -96,7 +98,6 @@ fun VideoGrabar(viewModel: FotosViewModel) {
                 Modifier.width(300.dp).height(300.dp))
         }
        //2Text(text = videoUri.toString())
-       if (viewModel.videoUris?.size != 0) {
            LazyRow(
                modifier = Modifier
                    .padding(10.dp)
@@ -105,29 +106,24 @@ fun VideoGrabar(viewModel: FotosViewModel) {
 
            ) {
                items(1){item->
-
-                   viewModel.videoUris?.forEach {
-                       VideoPlayer(
-                           videoUri = it,
-                           modifier = Modifier
-                               .fillMaxSize()
-                       )
+                   if(viewModel.videoUris != null){
+                       viewModel.videoUris?.forEach {
+                           VideoPlayer(
+                               videoUri = it,
+                               modifier = Modifier
+                                   .fillMaxSize()
+                                   .clickable {
+                                       viewModel.eliminarVideo(it)
+                                       viewModel.videoUri=null
+                                   }
+                           )
+                       }
                    }
 
                }
 
-               }
+           }
 
-           /*
-           VideoPlayer(
-               videoUri = viewModel.videoUri,
-               modifier = Modifier
-                   .height(400.dp)
-                   .fillMaxWidth()
-           )
-
-            */
-       }
 
 }
 
@@ -153,7 +149,6 @@ fun VideoPlayer(videoUri: Uri?, modifier: Modifier = Modifier) {
             SimpleExoPlayer.Builder(context).build().apply {
                 setMediaItem(MediaItem.fromUri(videoUri))
                 prepare()
-
             }
         }
 
@@ -171,22 +166,4 @@ fun VideoPlayer(videoUri: Uri?, modifier: Modifier = Modifier) {
     }
 }
 
-fun getVideoUri(context: Context): Uri {
-    // 1
-    val directory = File(context.cacheDir, "images")
-    directory.mkdirs()
-    // 2
-    val file = File.createTempFile(
-        "selected_image_",
-        ".mp4",
-        directory
-    )
-    // 3
-    val authority = "com.daviddj.proyecto_final-djl.fileprovider"
-    // 4
-    return FileProvider.getUriForFile(
-        context,
-        authority,
-        file,
-    )
-}
+

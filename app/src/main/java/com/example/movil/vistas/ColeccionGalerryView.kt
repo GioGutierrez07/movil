@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,12 +40,13 @@ import com.example.movil.viewModels.ScannerViewModel
 @Composable
 fun CollectionGalleryView( viewModel: FotosViewModel){
     val context = LocalContext.current
+
     var imagesUris by remember { mutableStateOf<List<Uri>>(emptyList()) }
     val multiplePhoto = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickMultipleVisualMedia(maxItems = 10) ){
         imagesUris = it
         //agregamos una colleccion de imagenes
-        viewModel.agregarLista(it)
+         viewModel.agregarLista(it)
     }
     Scaffold(
         floatingActionButton = {
@@ -53,7 +55,10 @@ fun CollectionGalleryView( viewModel: FotosViewModel){
                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                 )
             }) {
-                Icon(painter = painterResource(id = R.drawable.baseline_photo_library_24), contentDescription = null)
+                Icon(painter = painterResource(id = R.drawable.baseline_photo_library_24)
+                    , contentDescription = null,
+                    tint = MaterialTheme.colorScheme.tertiary
+                     )
             }
 
         }
@@ -64,16 +69,18 @@ fun CollectionGalleryView( viewModel: FotosViewModel){
 
             LazyRow {
                 items(1) {
-                    viewModel.imagesUri?.forEach { uri ->
-                        AsyncImage(
-                            model = ImageRequest.Builder(context).data(uri)
-                                .crossfade(enable = true).build(),
-                            contentDescription = "",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier.fillMaxWidth()
-                                .padding(start = 5.dp, end = 5.dp, top = 10.dp)
-                                .clickable { }
-                        )
+                    if(viewModel.imagesUri !=null) {
+                        viewModel.imagesUri?.forEach { uri ->
+                            AsyncImage(
+                                model = ImageRequest.Builder(context).data(uri)
+                                    .crossfade(enable = true).build(),
+                                contentDescription = "",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier.fillMaxWidth()
+                                    .padding(start = 5.dp, end = 5.dp, top = 10.dp)
+                                    .clickable { viewModel.eliminarDeLaLista(uri) }
+                            )
+                        }
                     }
                 }
 

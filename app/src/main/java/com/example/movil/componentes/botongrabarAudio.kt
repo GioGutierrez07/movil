@@ -84,27 +84,25 @@ fun PlayButton(audioBytes: ByteArray?,viewModele: TareasViewModel) {
         mutableStateOf(false)
     }
 
-
     Icon(
         imageVector = Icons.Default.PlayArrow,
         contentDescription = "Reproducir",
         modifier = Modifier
             .size(48.dp)
             .clickable {
-
                     isPlaying = !isPlaying
                 if (isPlaying) {
                     startPlaying(mediaPlayer, audioBytes, audioFile)
-                    color = Color.Blue
+                    color = Color.DarkGray
                 } else {
                     stopPlaying(mediaPlayer)
-                    color = Color.Gray
+                    color = Color.Red
 
                 }
             },
         tint = color
     )
-    StopButton(mediaPlayer = mediaPlayer, isPlaying,viewModele)
+   // StopButton(mediaPlayer = mediaPlayer, isPlaying,viewModele)
 }
 
 
