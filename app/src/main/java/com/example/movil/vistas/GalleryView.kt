@@ -50,6 +50,7 @@ fun GalleryView(viewModel: ScannerViewModel, viewModelFotos:FotosViewModel) {
             viewModel.onRecognizedText(image, context)
             viewModelFotos.agregar(it)
             viewModelFotos.imagenUri=it
+            //viewModelFotos.imagesUriEditar?.plus(it)
         }else{
             viewModel.showToast(context,"No se ha seleccionado ninguna imagen")
         }

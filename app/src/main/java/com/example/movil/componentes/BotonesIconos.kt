@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 @Composable
 fun IconoSeleccion(
@@ -45,7 +46,39 @@ fun IconoSeleccion(
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = texto,
-            color = if (seleccionado) MaterialTheme.colorScheme.inversePrimary else MaterialTheme.colorScheme.inverseSurface
+            fontSize = 10.sp,
+            color = if (seleccionado) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.secondary
+        )
+    }
+}
+
+
+@Composable
+fun IconoModal(
+    seleccionado: Boolean,
+    iconoResId: Int,
+    texto: String,
+    onClick: (Composable) -> Unit
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+
+        ) {
+        IconButton(onClick = { onClick(Composable())}) {
+            Icon(
+                painter = painterResource(id = iconoResId),
+                contentDescription = null,
+                modifier =
+                Modifier
+                    .size(60.dp),
+                tint = if (seleccionado) MaterialTheme.colorScheme.inversePrimary else MaterialTheme.colorScheme.inverseSurface
+            )
+        }
+        Spacer(modifier = Modifier.height(4.dp))
+        Text(
+            text = texto,
+            fontSize = 10.sp,
+            color = if (seleccionado) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.secondary
         )
     }
 }

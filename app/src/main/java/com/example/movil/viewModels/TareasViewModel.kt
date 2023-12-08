@@ -59,6 +59,10 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
 
     //para la fecha
     var fechaFormato by mutableStateOf("")
+    var fechaHora by mutableStateOf("")
+    var fechaMinutos by mutableStateOf("")
+    var horasMilisegundos by mutableStateOf(0L)
+    var alarma by mutableStateOf(0L)
 
     val context: Context
         @Composable
@@ -170,8 +174,7 @@ class TareasViewModel @Inject constructor(private val repositorio: NotasReposito
         estado=estado.copy( audios = false,
             fotos =true)
     }
-    fun buscar(){
-    }
+
 
     fun validarCampos(): Boolean{
         val tarea=estado.tarea

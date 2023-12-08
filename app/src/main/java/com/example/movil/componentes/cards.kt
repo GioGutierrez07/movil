@@ -1,9 +1,7 @@
 package com.example.movil.componentes
 
 
-import android.graphics.Bitmap
-import android.net.Uri
-import android.provider.MediaStore.Audio
+
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -26,6 +24,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalDrawerSheet
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -37,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.modifier.modifierLocalConsumer
@@ -61,11 +63,12 @@ import com.example.movil.R
 import com.example.movil.viewModels.FotosViewModel
 import com.example.movil.viewModels.ScannerViewModel
 import com.example.movil.viewModels.TareasViewModel
+import com.example.movil.vistas.ModalModificar
 
 import dagger.Provides
 
 
-@OptIn(ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun CardMain(
     id: String,
@@ -139,7 +142,7 @@ fun CardMain(
         Row(
             horizontalArrangement = Arrangement.SpaceAround,
             modifier = Modifier
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = 5.dp)
                 .fillMaxWidth()
         ) {
             Multimedia(imagenUri,videoUris,fotosViewModel,navController = navController, viewModel = viewModel, camara = camara)
@@ -147,10 +150,6 @@ fun CardMain(
             PlayButton(audioBytes = audio, viewModele =viewModel )
         }
         SpaceAlto(10.dp)
-          // TextRow(texto = tipo, cardMaxWhi )
-           TextRow(texto = fecha, cardMaxWhi)
-           TextRow(texto = descripcion, cardMaxWhi)
-
 
 
        }
@@ -159,19 +158,97 @@ fun CardMain(
 
 
 @Composable
-fun TextRow(texto: String ,modifier: Modifier=Modifier.fillMaxWidth()){
+fun TextRow(texto: String,
+            color: androidx.compose.ui.graphics.Color,
+            modifier:Modifier=Modifier.fillMaxWidth()){
     Row(
-        modifier =modifier
+        horizontalArrangement = Arrangement.SpaceAround,
+        modifier = Modifier
+            .padding(horizontal = 5.dp)
+            .fillMaxWidth(),
     ) {
         Text(text = texto,
               fontSize = 16.sp,
               fontFamily = FontFamily(Font(R.font.press_start_2p)),
-              modifier = Modifier.fillMaxWidth(),
-              textAlign = TextAlign.Center
+              modifier = modifier,
+            color=color
+
         )
 
     }
 }
+
+@Composable
+fun CardInformacion(
+    fecha: String,
+    descripcion: String,
+    tipo: String,
+    onclickMostrarMas:()->Unit,
+    cardMaxWhi: Modifier= Modifier
+        .padding(horizontal = 26.dp, vertical = 16.dp)
+        .fillMaxWidth(),
+    onclick: () -> Unit,
+    ){
+
+    val expandedState = remember { mutableStateOf(false) }
+
+    val cardHeight: Dp by animateDpAsState(
+        if (expandedState.value) 350.dp else 100.dp,
+        animationSpec = tween(durationMillis = 500)
+    )
+
+    Card(
+        modifier = Modifier
+            .padding(10.dp)
+            .height(cardHeight)
+            .clickable { onclick() },
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = cardMaxWhi
+
+        ) {
+
+
+
+        }
+        Row(
+            horizontalArrangement = Arrangement.SpaceAround,
+            modifier = Modifier
+                .padding(horizontal = 5.dp)
+                .fillMaxWidth(),
+        ) {
+            IconoPersonalizable(
+                onClick = {
+                    expandedState.value = !expandedState.value
+                    onclickMostrarMas()
+                },
+                icono = R.drawable.flechaabajo
+            )
+            Text(text = tipo)
+        }
+        SpaceAlto(30.dp)
+
+        TextRow(texto = "Fecha Limite:",MaterialTheme.colorScheme.secondary, Modifier
+            .padding(horizontal = 26.dp))
+        SpaceAlto(20.dp)
+
+        TextRow(texto = fecha,MaterialTheme.colorScheme.primary, Modifier
+            .padding(horizontal = 26.dp))
+        SpaceAlto(20.dp)
+
+        TextRow(texto = "Descripcion:",MaterialTheme.colorScheme.secondary, Modifier
+            .padding(horizontal = 26.dp) )
+        SpaceAlto(20.dp)
+
+        TextRow(texto = descripcion,MaterialTheme.colorScheme.primary, Modifier
+            .padding(horizontal = 26.dp))
+
+    }
+}
+
+
 
 
 

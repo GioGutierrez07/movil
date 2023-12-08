@@ -40,11 +40,14 @@ import com.example.movil.viewModels.TareasViewModel
 
 @Composable
 fun SelectorMultimedia(
+    editar:Boolean,
+    fotosViewModel: FotosViewModel,
     navController: NavController,
     viewModel: TareasViewModel,
     camara: ScannerViewModel
 ) {
 
+    fotosViewModel.editarMultomedia=editar
     val context = viewModel.context
     // Estado para almacenar la imagen capturada
     val launcher = viewModel.launcher
@@ -61,61 +64,23 @@ fun SelectorMultimedia(
             iconoResId = R.drawable.fotos, // Cambia el icono
             texto = "FOTOS",
             onClick = {
-
-                navController.navigate("Tabs")
-                /*
-                //solicitar permisos multimedia
-                if (hasCameraPermission(context)) {
-                    launcher.launch(null)
-                } else {
-                    // Solicitar permiso
-                    requestCameraPermission(context)
+                if(fotosViewModel.editarMultomedia){
+                    navController.navigate("TabsEditarView")
+                }else{
+                    navController.navigate("Tabs")
                 }
-                viewModel.esFoto()
-                 */
+
+
             }
         )
-        /*
-        viewModel.capturedImage?.let { image ->
-            Image(
-                bitmap = image,
-                contentDescription = "Imagen Capturada"
-            )
-        }
+        SpaceAncho()
 
-         */
-        //guardamos la foto en memoria
-       // viewModel.foto(viewModel.bitmapToByteArray(viewModel.imagenBitmap))
-
-    SpaceAncho()
-        /*
-    Text(
-        text = "Multimedia",
-        textAlign = TextAlign.Center,
-        color = MaterialTheme.colorScheme.primary,
-        fontFamily = FontFamily.Monospace,
-        fontWeight = FontWeight.Bold,
-        fontSize = 30.sp,
-        style = MaterialTheme.typography.displaySmall,
-
-        )
-    */
         PlayButton(audioBytes = viewModel.audio,viewModel)
 
     SpaceAncho()
 
         RecordButton(viewModel)
-      /*
-    IconoSeleccion(
-        seleccionado = viewModel.estado.audios,
-        iconoResId = R.drawable.audio, // Cambia el icono
-        texto = "AUDIOS",
-        onClick = {
-            viewModel.esAudio()
-        }
-    )
 
-       */
   }
 }
 
@@ -132,15 +97,14 @@ fun Multimedia(
     val context = viewModel.context
     // Estado para almacenar la imagen capturada
     val launcher = viewModel.launcher
+
         IconoSeleccion(
             seleccionado = viewModel.estado.fotos,
-            iconoResId = R.drawable.fotos, // Cambia el icono
+            iconoResId = R.drawable.baseline_photo_library_24, // Cambia el icono
             texto = "Multimedia",
             onClick = {
-
                     fotosViewModel.imagesUri= viewModel.retornaListaUri(urisimagen)
                     fotosViewModel.videoUris= viewModel.retornaListaUri(urisVideo)
-
                 navController.navigate("TabsGaleria")
 
             }

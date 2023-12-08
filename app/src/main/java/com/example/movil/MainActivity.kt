@@ -82,33 +82,6 @@ class MainActivity : ComponentActivity() {
 
     }
 
-    @SuppressLint("ScheduleExactAlarm")
-     fun scheduleNotification(){
-        val intent = Intent(applicationContext, Notification::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            applicationContext,
-            NOTIFICATION_ID,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, Calendar.getInstance().timeInMillis+10000,pendingIntent)
-    }
-
- fun crearCanal(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            val channel = NotificationChannel(
-                Notification.MY_CHANNEL_ID,
-                "super",
-                NotificationManager.IMPORTANCE_DEFAULT
-            ).apply {
-                description="Funciona yaaaa"
-            }
-            val notifica: NotificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-            notifica.createNotificationChannel(channel)
-        }
-    }
 
 
 }

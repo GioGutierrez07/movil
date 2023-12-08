@@ -17,6 +17,10 @@ class FotosViewModel() :ViewModel(){
     var imagenUri by mutableStateOf<Uri?>(Uri.EMPTY)
 
 
+    var imagesUriEditar by  mutableStateOf<List<Uri>?>(emptyList())
+    var editarMultomedia by mutableStateOf(true)
+
+
 
    //agregamos solamente una imagen a la lista
     fun agregar (it: Uri){
@@ -40,12 +44,14 @@ class FotosViewModel() :ViewModel(){
     var videoUri  by  mutableStateOf<Uri?>(null)
    // var videoUris by  mutableStateOf<List<Uri>>(emptyList())
     var videoUris by mutableStateOf<List<Uri>?>(emptyList())
+    var videoUrisEditar by mutableStateOf<List<Uri>?>(emptyList())
 
     //Agragar a lista de video
     fun agregarVideo (it: Uri){
         val nueva= videoUris?.toMutableList()
         nueva?.add(it)
         videoUris=nueva
+
 
     }
 
@@ -64,6 +70,11 @@ class FotosViewModel() :ViewModel(){
         imagesUri=list
         videoUris=list
     }
+    fun LimpiarListaEditar(){
+        val list = listOf<Uri>()
+        imagesUriEditar=list
+        videoUrisEditar=list
+    }
 
     fun eliminarVideo(video:Uri){
         val nueva= videoUris?.toMutableList()
@@ -71,7 +82,6 @@ class FotosViewModel() :ViewModel(){
         videoUris=nueva
     }
     fun eliminarDeLaLista(imagem:Uri){
-
         val nueva= imagesUri?.toMutableList()
         nueva?.remove(imagem)
         imagesUri=nueva

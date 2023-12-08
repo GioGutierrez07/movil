@@ -85,6 +85,10 @@ dependencies {
     implementation ("com.squareup.picasso:picasso:2.71828")
 
 
+    //animaciones lottiefiles
+    implementation("com.airbnb.android:lottie-compose:5.2.0")
+
+
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")

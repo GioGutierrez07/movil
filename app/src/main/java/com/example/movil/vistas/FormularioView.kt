@@ -1,16 +1,7 @@
 package com.example.movil.vistas
 
-import android.Manifest
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Build
-import android.provider.Settings.Global.getString
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -40,7 +31,6 @@ import androidx.compose.runtime.setValue
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 
 import androidx.compose.ui.res.stringResource
@@ -48,17 +38,13 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.NavController
-import com.example.movil.MainActivity
 
 import com.example.movil.R
 import com.example.movil.TareasNotas
 
 import com.example.movil.componentes.Alert
+import com.example.movil.componentes.IconHora
 
 
 import com.example.movil.componentes.IconoSeleccion
@@ -70,19 +56,18 @@ import com.example.movil.componentes.MainTextFieldPersonalizado
 import com.example.movil.componentes.SelectorFecha
 import com.example.movil.componentes.SelectorMultimedia
 import com.example.movil.componentes.SpaceAlto
-import com.example.movil.componentes.TitleBar
 
 import com.example.movil.models.Notas
 import com.example.movil.notificaciones.AlarmItem
 import com.example.movil.notificaciones.AlarmScheduler
-import com.example.movil.notificaciones.Notification
 import com.example.movil.viewModels.FotosViewModel
 import com.example.movil.viewModels.RegistrarTareasViewModel
 import com.example.movil.viewModels.ScannerViewModel
 
 import com.example.movil.viewModels.TareasViewModel
-import okhttp3.internal.notify
 import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -109,6 +94,7 @@ fun FormularioView(
                 navigationIcon = {
                     MainIconButton(icon = Icons.Default.ArrowBack) {
                         navController.navigate("home")
+
                     }
                 }
             )
@@ -185,6 +171,9 @@ fun ContentFormularioView(
         }
 
         MainTextFieldPersonalizado(
+            modifer = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 10.dp),
             value = viewModel.estado.nombre,
             onValueChange = { viewModel.onValue(it, "nombre") },
             label = stringResource(id = R.string.NombreA)
@@ -194,18 +183,20 @@ fun ContentFormularioView(
 
         MainTextFieldPersonalizado(
             modifer = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
                 .height(300.dp)
-                .padding(horizontal = 30.dp),
+                .padding(horizontal = 10.dp),
             value = viewModel.estado.descripcion,
             onValueChange = { viewModel.onValue(it, "descripcion") },
             label = stringResource(id = R.string.labelDescripcion)
         )
         SpaceAlto()
         SelectorFecha(viewModel)
+
+            IconHora(viewModel)
         SpaceAlto()
 
-        SelectorMultimedia(navController,viewModel,camara)
+        SelectorMultimedia(false,fotosViewModel,navController,viewModel,camara)
 
         SpaceAlto()
 
@@ -229,14 +220,17 @@ fun ContentFormularioView(
                     )
                    // val fecha=LocalDateTime.parse(viewModel.fechaFormato)
                      /////////////////////////
+
                     alarmItem =
                         AlarmItem(
                             LocalDateTime.parse(viewModel.fechaFormato),
+                            viewModel.horasMilisegundos-21600000,
                             message = "Hola tienes una tarea pendiente"
                         )
                     alarmItem = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         AlarmItem(
                             LocalDateTime.parse(viewModel.fechaFormato),
+                            viewModel.horasMilisegundos-21600000,
                             "Tienes una tarea pendiente"
                         )
                     } else {
@@ -245,12 +239,8 @@ fun ContentFormularioView(
 
                     ////////////////////////////////////////
                     alarmItem?.let(alarmScheduler::schedule)
-                    secondText = ""
-                    messageText = ""
-
+                    viewModel.horasMilisegundos=0L
                     viewModel.limpiar()
-                    fotosViewModel.LimpiarListas()
-
                     //regresamos a la pantalla principal
                     navController.navigate("Home")
 
@@ -259,12 +249,13 @@ fun ContentFormularioView(
                 MainButtonRegistrar(text = "Limpiar Formurio", color=MaterialTheme.colorScheme.tertiary) {
                     //lo que realzara el boton
                     viewModel.limpiar()
-                    fotosViewModel.LimpiarListas()
+
                 }
 
             }
-            //Text(text = LocalDateTime.now().toString())
-            //Text(text = viewModel.fechaFormato)
+
+            //Text(text = viewModel.alarma.toString())
+            //Text(text = viewModel.horasMilisegundos.toString())
 
          //  Text(text = fotosViewModel.videoUris.toString())
 

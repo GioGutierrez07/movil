@@ -66,6 +66,7 @@ fun CameraView(viewModel: ScannerViewModel ,viewModelFotos: FotosViewModel) {
         //agregamos una foto a nuestra lista
         viewModelFotos.agregar(uri)
         viewModelFotos.imagenUri=uri
+       // viewModelFotos.imagesUriEditar?.plus(uri)
     }
 
     val permissionLauncher = rememberLauncherForActivityResult(

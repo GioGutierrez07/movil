@@ -18,6 +18,7 @@ class AlarmaChida : BroadcastReceiver() {
 
 
     override fun onReceive(context: Context?, intent: Intent?) {
+
         val message = intent?.getStringExtra("EXTRA_MESSAGE") ?: return
         val channelId = "alarm_id"
         context?.let { ctx ->
@@ -36,6 +37,7 @@ class AlarmaChida : BroadcastReceiver() {
 
 data class AlarmItem(
     val alarmTime : LocalDateTime,
+    val tiempoMilis:Long,
     val message : String
 )
 
@@ -61,9 +63,11 @@ class AlarmSchedulerImpl(
         //convierte esa fech y hora  a milisegundos   y finalmete esos se ututiliza para programar la alarma
         val millis = zonedDateTime.toInstant().toEpochMilli()
 
+
+
         alarmManager.set(
             AlarmManager.RTC_WAKEUP,
-            millis-86400000,
+            millis+alarmItem.tiempoMilis,
             PendingIntent.getBroadcast(
                 context,
                 alarmItem.hashCode(),

@@ -64,8 +64,14 @@ fun TabsView(
                 contenedorColor = Color.Gray,
                 colorContenido = Color.White,
             ){
-
+                if(fotosViewModel.editarMultomedia){
+                    fotosViewModel.editarMultomedia=true
                     navController.popBackStack()
+                }else{
+                    navController.navigate("Formulario")
+                }
+
+
             }
         }
     ) {
@@ -93,6 +99,84 @@ fun TabsView(
                             fontFamily = FontFamily(Font(R.font.press_start_2p)),
                             color = MaterialTheme.colorScheme.primary)
                                },
+                    )
+                }
+
+            }
+            when (selectedTab) {
+                0 -> GalleryView(viewModel,fotosViewModel).apply { viewModel.cleanText() }
+                1 -> CameraView(viewModel, fotosViewModel).apply { viewModel.cleanText() }
+                2 -> CollectionGalleryView(fotosViewModel)
+                3->  VideoGrabar(viewModel = fotosViewModel)
+            }
+        }
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+@Composable
+fun TabsEditarView(
+    fotosViewModel: FotosViewModel,
+    viewModel: ScannerViewModel
+    ,tareaviewModel:TareasViewModel,
+    navController: NavController
+) {
+
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                title = { Text(
+                    text = "Multimedia editar",
+                    color= MaterialTheme.colorScheme.secondary,
+                    fontFamily = FontFamily(Font(R.font.press_start_2p)) ) },
+                colors= TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                )
+            )
+        },
+        floatingActionButton = {
+            BotonFlotante(
+                icono = Icons.Filled.ArrowBack,
+                contenedorColor = Color.Gray,
+                colorContenido = Color.White,
+            ){
+                if(fotosViewModel.editarMultomedia){
+                    //fotosViewModel.editarMultomedia=false
+                    navController.popBackStack()
+                }else{
+                    navController.navigate("Formulario")
+                }
+
+
+            }
+        }
+    ) {
+
+        var selectedTab by remember { mutableStateOf(0) }
+        val tabs = listOf("Galeria", "Camara", "Coleccion", "Video")
+
+
+
+        Column (Modifier.padding(55.dp)){
+
+            TabRow(selectedTabIndex = selectedTab,
+                contentColor = MaterialTheme.colorScheme.tertiary,
+                indicator = { tabPositions ->
+                    TabRowDefaults.Indicator(
+                        Modifier.tabIndicatorOffset(tabPositions[selectedTab])
+                    )
+                }) {
+
+                tabs.forEachIndexed { index, titulo ->
+                    Tab(
+                        selected = selectedTab == index,
+                        onClick = { selectedTab = index },
+                        text = { Text(text = titulo, fontSize = 4.sp,
+                            fontFamily = FontFamily(Font(R.font.press_start_2p)),
+                            color = MaterialTheme.colorScheme.primary)
+                        },
                     )
                 }
 

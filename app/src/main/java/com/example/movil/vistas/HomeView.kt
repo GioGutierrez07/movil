@@ -60,7 +60,9 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.movil.R
 
 import com.example.movil.componentes.BotonFlotante
+import com.example.movil.componentes.CardInformacion
 import com.example.movil.componentes.CardMain
+import com.example.movil.componentes.IconoSeleccion
 
 import com.example.movil.componentes.SpaceAlto
 import com.example.movil.componentes.SpaceAncho
@@ -108,6 +110,11 @@ fun NotasApp(
         }
     }
 
+    if(!fotosViewModel.editarMultomedia){
+        fotosViewModel.LimpiarListas()
+    }
+
+
     HomeView(alarmScheduler,fotosViewModel,camara,bDModel , navController , navigationType,viewModel )
     
 }
@@ -144,7 +151,7 @@ fun HomeView(
             ){
 
                 if(navigationType== ReplyNavigationType.PERMANENT_NAVIGATION_DRAWER){
-
+                        //navController.navigate()
                 }else{
                     //ContenidoHome(it,bDModel,navController)
                     navController.navigate("Formulario")
@@ -187,6 +194,11 @@ fun ContenidoHome(
         var tipo by remember {
             mutableStateOf("")
         }
+
+        var mostrarsoloInfo by remember{
+            mutableStateOf(false)
+        }
+
         TextFieldPersonalizado(
             texto = tipo,
             onTextoCambiado = { tipo=it},
@@ -197,7 +209,66 @@ fun ContenidoHome(
 
         bDModel.buscarCoin(tipo)
 
-        if(tipo != ""){
+        IconoSeleccion(
+            seleccionado = viewModel.estado.fotos,
+            iconoResId = R.drawable.baseline_info_outline_24, // Cambia el icono
+            texto = "Info",
+        ){
+            //mostramos sola la informacion de la nota
+            mostrarsoloInfo=!mostrarsoloInfo
+        }
+
+        if(mostrarsoloInfo){
+            SpaceAlto()
+            val actividalesList by bDModel.notasList.collectAsState()
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize(),
+                //verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                items(actividalesList) { item ->
+
+                    //eliminar elemento
+                    val eliminar = SwipeAction(
+                        icon = rememberVectorPainter(Icons.Default.Delete),
+                        background = Color.Red,
+                        onSwipe = { bDModel.deleteNota(item) }
+                    )
+                    //endActions para eliminar de izquierda a derecha starActions de derecha a
+                    SwipeableActionsBox(endActions = listOf(eliminar), swipeThreshold = 100.dp) {
+
+                        CardInformacion(
+                            fecha = item.fecha,
+                            descripcion = item.descripcion,
+                            tipo = item.tipo,
+                            onclickMostrarMas = { bDModel.cambiarMostrar() },
+                        ) {
+                            navController.navigate("Editar/${item.id}")
+                            //viewModel.editar(true)
+                            // viewModel.idEstado(item.id)
+
+                        }
+
+                    }
+                    if (viewModel.estado.editar) {
+                        ModalModificar(
+                            fotosViewModel,
+                            camara,
+                            bDModel,
+                            viewModel,
+                            navController,
+                            id = viewModel.estado.id
+                        ) { viewModel.editar(false) }
+
+                    }
+
+
+                }
+
+            }
+        } else if(tipo != ""){
            // bDModel.nota=tipo
             val actividalesList2 by bDModel.notasList2.collectAsState()
             ///por tipo de nota o tarea///////////////////////////
@@ -305,9 +376,9 @@ fun ContenidoHome(
                             onclickMostrarMas = { bDModel.cambiarMostrar() },
                             mostrarMAs = bDModel.mostrarMas,
                         ) {
-                            //navController.navigate("Editar/${item.id}")
-                            viewModel.editar(true)
-                            viewModel.idEstado(item.id)
+                            navController.navigate("Editar/${item.id}")
+                            //viewModel.editar(true)
+                           // viewModel.idEstado(item.id)
 
                         }
 
@@ -443,6 +514,7 @@ fun ContenidoHomeTablet(
                         //navController.navigate("Editar/${item.id}")
                         viewModel.editar(true)
                         viewModel.idEstado(item.id)
+
                     }
 
                 }
@@ -471,6 +543,8 @@ fun ContenidoHomeTablet(
             ModalModificar(fotosViewModel,scannerViewModel,bDModel, viewModel, navController, id = viewModel.estado.id) { viewModel.editar(false)}
 
         }
+
+
 
 
 

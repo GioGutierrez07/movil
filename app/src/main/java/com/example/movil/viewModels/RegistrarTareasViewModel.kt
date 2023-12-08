@@ -27,6 +27,8 @@ class RegistrarTareasViewModel @Inject constructor(private val repositorio: Nota
 
     var nota by mutableStateOf("Nota")
 
+    var recopialrDatpos by mutableStateOf(true)
+
     fun cambiarMostrar(){
         if(mostrarMas){
             mostrarMas=false

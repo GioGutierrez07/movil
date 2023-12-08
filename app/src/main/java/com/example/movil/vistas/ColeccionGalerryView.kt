@@ -38,15 +38,17 @@ import com.example.movil.viewModels.ScannerViewModel
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
-fun CollectionGalleryView( viewModel: FotosViewModel){
+fun CollectionGalleryView( viewModel: FotosViewModel) {
     val context = LocalContext.current
 
     var imagesUris by remember { mutableStateOf<List<Uri>>(emptyList()) }
     val multiplePhoto = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickMultipleVisualMedia(maxItems = 10) ){
+        contract = ActivityResultContracts.PickMultipleVisualMedia(maxItems = 10)
+    ) {
         imagesUris = it
         //agregamos una colleccion de imagenes
-         viewModel.agregarLista(it)
+        viewModel.agregarLista(it)
+        //viewModel.videoUrisEditar?.plus(it)
     }
     Scaffold(
         floatingActionButton = {
@@ -55,21 +57,24 @@ fun CollectionGalleryView( viewModel: FotosViewModel){
                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                 )
             }) {
-                Icon(painter = painterResource(id = R.drawable.baseline_photo_library_24)
-                    , contentDescription = null,
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_photo_library_24),
+                    contentDescription = null,
                     tint = MaterialTheme.colorScheme.tertiary
-                     )
+                )
             }
 
         }
     ) { paddingValues ->
-        Column (modifier = Modifier
-            .padding(paddingValues)
-            .fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxSize()
+        ) {
 
             LazyRow {
                 items(1) {
-                    if(viewModel.imagesUri !=null) {
+                    if (viewModel.imagesUri != null) {
                         viewModel.imagesUri?.forEach { uri ->
                             AsyncImage(
                                 model = ImageRequest.Builder(context).data(uri)
@@ -82,13 +87,13 @@ fun CollectionGalleryView( viewModel: FotosViewModel){
                             )
                         }
                     }
+
                 }
-
-
             }
         }
     }
+}
 
-    }
+
 
 

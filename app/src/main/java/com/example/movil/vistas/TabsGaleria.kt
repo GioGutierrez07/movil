@@ -40,7 +40,7 @@ import com.example.movil.viewModels.TareasViewModel
 fun TabsGaleriaView(
     fotosViewModel: FotosViewModel,
     viewModel: ScannerViewModel
-    , tareaviewModel: TareasViewModel,
+    ,tareaviewModel: TareasViewModel,
     navController: NavController
 ) {
 
@@ -62,9 +62,8 @@ fun TabsGaleriaView(
                 contenedorColor = Color.Gray,
                 colorContenido = Color.White,
             ){
-
                 navController.navigate("home")
-                fotosViewModel.LimpiarListas()
+
             }
         }
     ) {
@@ -90,7 +89,7 @@ fun TabsGaleriaView(
                         onClick = { selectedTab = index },
                         text = { Text(text = titulo, fontSize = 7.sp,
                             fontFamily = FontFamily(Font(R.font.press_start_2p))
-                            , color = MaterialTheme.colorScheme.primary
+                            ,
                             ) },
                     )
                 }
@@ -104,3 +103,4 @@ fun TabsGaleriaView(
         }
     }
 }
+

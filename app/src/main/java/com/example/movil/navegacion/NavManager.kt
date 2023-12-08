@@ -24,6 +24,8 @@ import com.example.movil.vistas.FormularioView
 import com.example.movil.vistas.HomeView
 import com.example.movil.vistas.ModalModificar
 import com.example.movil.vistas.NotasApp
+import com.example.movil.vistas.SplashScreem
+import com.example.movil.vistas.TabsEditarView
 import com.example.movil.vistas.TabsGaleriaView
 import com.example.movil.vistas.TabsView
 
@@ -41,13 +43,23 @@ fun NavManager(
     val navController = rememberNavController()
 
     //startDestination es donede inicia nuestra app
-    NavHost(navController = navController, startDestination = "Home"){
+    NavHost(navController = navController, startDestination = "splash"){
+
+        composable("splash"){
+            SplashScreem(navController =navController )
+        }
+
+
         composable("Home"){
             NotasApp(alarmScheduler,fotosViewModel,camare,bDModel, navController, windowSize,viewModel)
         }
 
         composable("Formulario"){
             FormularioView(alarmScheduler,fotosViewModel,camare,bDModel ,viewModel , navController)
+        }
+
+        composable("TabsEditarView"){
+            TabsEditarView(fotosViewModel,camare,viewModel ,navController)
         }
 
         composable("Tabs"){
@@ -63,7 +75,7 @@ fun NavManager(
                 type= NavType.LongType }
         )){
             val id =it.arguments?.getLong("id") ?:0
-            FormularioEditarView(fotosViewModel,bDModel ,viewModel , navController,id)
+            FormularioEditarView(camare ,fotosViewModel,bDModel ,viewModel , navController,id)
         }
 
 
